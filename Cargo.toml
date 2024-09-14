@@ -7,5 +7,7 @@ license-file = "LICENSE"
 repository = "https://github.com/vulogov/rust_multistackvm"
 
 [dependencies]
+easy-error = "1.0.0"
+nanoid = "0.4.0"
 rust_dynamic = ">=0.20.*"
 rust_multistack = ">= 0.23.*"
