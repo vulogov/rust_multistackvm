@@ -1,0 +1,11 @@
+[package]
+name = "rust_multistackvm"
+version = "0.1.0"
+edition = "2021"
+description = "Stack-based virtual machine on top of rust_multistack crate"
+license-file = "LICENSE"
+repository = "https://github.com/vulogov/rust_multistackvm"
+
+[dependencies]
+rust_dynamic = ">=0.20.*"
+rust_multistack = ">= 0.23.*"
