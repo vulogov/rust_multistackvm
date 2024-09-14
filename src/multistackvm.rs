@@ -14,14 +14,16 @@ pub struct VM {
     pub id:             String,
     pub stack:          TS,
     pub inline_fun:     collections::HashMap<String, VMInlineFn>,
+    pub name_mapping:   collections::HashMap<String, String>,
 }
 
 impl VM {
     fn init() -> Self {
         Self {
-            id:         nanoid!(),
-            stack:      TS::new_with_named("main".to_string()),
-            inline_fun: collections::HashMap::new(),
+            id:             nanoid!(),
+            stack:          TS::new_with_named("main".to_string()),
+            inline_fun:     collections::HashMap::new(),
+            name_mapping:   collections::HashMap::new(),
         }
     }
     ///
