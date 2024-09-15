@@ -65,7 +65,21 @@ impl VM {
                 }
             }
         }
+    }
 
+    pub fn i(&mut self, name: String) -> Result<&mut VM, Error> {
+        if self.is_alias(name.clone()) {
+            match self.get_alias(name.clone()) {
+                Ok(real_name) => {
+                    return self.i_direct(real_name);
+                }
+                Err(err) => {
+                    bail!("Alias resolution for {} returned: {}", &name, err);
+                }
+            }
+        } else {
+            return self.i_direct(name.clone());
+        }
     }
 
 }
