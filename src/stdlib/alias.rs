@@ -70,5 +70,5 @@ pub fn stdlib_unalias_inline(vm: &mut VM) -> Result<&mut VM, Error> {
 
 pub fn init_stdlib(vm: &mut VM) {
     let _ = vm.register_inline("alias".to_string(), stdlib_alias_inline);
-
+    let _ = vm.register_inline("unalias".to_string(), stdlib_unalias_inline);
 }

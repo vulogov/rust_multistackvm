@@ -46,4 +46,16 @@ mod tests {
         assert_eq!(list_val[0].cast_float().unwrap(), 42.0 as f64);
     }
 
+    #[test]
+    fn test_vm_apply_autoadd2_value() {
+        let mut vm = VM::new();
+        vm.apply(Value::call("list".to_string(), Vec::new())).unwrap();
+        vm.call(":".to_string()).unwrap();
+        vm.apply(Value::from(42.0).unwrap()).unwrap();
+        vm.call(";".to_string()).unwrap();
+        let val = vm.stack.pull().expect("No pull() happens");
+        let list_val = val.cast_list().unwrap();
+        assert_eq!(list_val[0].cast_float().unwrap(), 42.0 as f64);
+    }
+
 }
