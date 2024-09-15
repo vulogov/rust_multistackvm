@@ -104,3 +104,9 @@ These inline functions are defined for the VM, with additional inline functions 
 |---|---|
 | : | Turn on auto-add feature |
 | ; | Turn off auto-add feature |
+
+## Default aliases
+
+| Alias | Context | Inline name | Description |
+|---|---|---|---|
+| . | TS | return | Pull value from current stack and push it to Workbench |

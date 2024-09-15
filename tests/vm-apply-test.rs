@@ -58,4 +58,13 @@ mod tests {
         assert_eq!(list_val[0].cast_float().unwrap(), 42.0 as f64);
     }
 
+    #[test]
+    fn test_vm_apply_call_with_alias() {
+        let mut vm = VM::new();
+        vm.apply(Value::from(42.0).unwrap()).unwrap();
+        vm.call(".".to_string()).unwrap();
+        let val = vm.stack.pull_from_workbench().unwrap();
+        assert_eq!(val.cast_float().unwrap(), 42.0 as f64);
+    }
+
 }

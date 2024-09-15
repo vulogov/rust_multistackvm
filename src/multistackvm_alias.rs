@@ -5,7 +5,7 @@ impl VM {
     pub fn register_alias(&mut self, alias: String, name: String) -> Result<&mut VM, Error> {
         match self.unregister_alias(alias.clone()) {
             Ok(_) => {
-                self.name_mapping.insert(alias, format!("{}_inline", &name));
+                self.name_mapping.insert(alias, name.clone());
             }
             Err(err) => {
                 bail!("VM Alias unregistering returns error: {}", err);

@@ -56,12 +56,12 @@ impl VM {
                             return Ok(self);
                         }
                         Err(err) => {
-                            bail!("TS inline function returned error: {}", err);
+                            bail!("VM inline function returned error: {}", err);
                         }
                     }
                 }
                 Err(err) => {
-                    bail!("i({}) returned: {}", &name, err);
+                    bail!("i({}) for stack returned: {}", &name, err);
                 }
             }
         }
