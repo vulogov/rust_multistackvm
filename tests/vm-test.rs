@@ -18,4 +18,10 @@ mod tests {
         assert_eq!(vm.is_inline("print".to_string()), true);
     }
 
+    #[test]
+    fn test_vm_is_alias() {
+        let mut vm = VM::new();
+        assert_eq!(vm.is_alias("display".to_string()), true);
+    }
+
 }

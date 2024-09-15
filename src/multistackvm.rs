@@ -12,17 +12,22 @@ pub type VMInlineFn   = fn(&mut VM) -> Result<&mut VM, Error>;
 #[derive(Clone)]
 pub struct VM {
     pub id:             String,
+    pub autoadd:        bool,
     pub stack:          TS,
     pub inline_fun:     collections::HashMap<String, VMInlineFn>,
+    pub command_fun:    collections::HashMap<String, VMInlineFn>,
     pub name_mapping:   collections::HashMap<String, String>,
 }
 
 impl VM {
     fn init() -> Self {
+        let vmid = nanoid!();
         Self {
-            id:             nanoid!(),
+            id:             vmid,
+            autoadd:        false,
             stack:          TS::new_with_named("main".to_string()),
             inline_fun:     collections::HashMap::new(),
+            command_fun:    collections::HashMap::new(),
             name_mapping:   collections::HashMap::new(),
         }
     }
