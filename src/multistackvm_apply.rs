@@ -15,7 +15,18 @@ impl VM {
                             if self.autoadd {
                                 self.stack.push(value);
                             } else {
-                                return self.i(fun_name.clone());
+                                if self.is_lambda(fun_name.clone()) {
+                                    match self.get_lambda(fun_name.clone()) {
+                                        Ok(lambda) => {
+                                            return self.lambda_eval(lambda);
+                                        }
+                                        Err(err) => {
+                                            bail!("Error getting lambda {}: {}", &fun_name, err);
+                                        }
+                                    }
+                                } else {
+                                    return self.i(fun_name.clone());
+                                }
                             }
                         }
                     }
