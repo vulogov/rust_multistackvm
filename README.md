@@ -97,6 +97,8 @@ These inline functions are defined for the VM, with additional inline functions 
 | unalias | Takes a single string from stack and remove alias referred by this name |
 | list | Places an empty list to stack |
 | lambda | Places an empty lambda to stack |
+| ptr | Places an PTR reference to function to stack |
+| execute | Takes PTR function from the stack and execute inline or lambda referred by this PTR |
 
 ## VM control functions
 
@@ -127,3 +129,4 @@ First, I am appying a Value::float to VM, that is pushed this value to the stack
 | Alias | Context | Inline name | Description |
 |---|---|---|---|
 | . | TS | return | Pull value from current stack and push it to Workbench |
+| ! | VM | execute | Execute inline function referred by PTR |
