@@ -107,6 +107,23 @@ These inline functions are defined for the VM, with additional inline functions 
 
 ## Default aliases
 
+Alias is basically another name for the function or lambda. Here is an example, where I am calling function "." that is an alias for inline function "return".
+
+```rust
+let mut vm = VM::new();
+vm.apply(Value::from(42.0).unwrap()).unwrap();
+vm.call(".".to_string()).unwrap();
+let val = vm.stack.pull_from_workbench().unwrap();
+assert_eq!(val.cast_float().unwrap(), 42.0 as f64);
+```
+
+This alias was previously defined in stdlib/create aliases.rs as
+
+```rust
+let _ = vm.register_alias(".".to_string(), "return".to_string());
+```
+First, I am appying a Value::float to VM, that is pushed this value to the stack. Then I am calling for function "." Alias is getting resolved and inline function "return" defined in TS is called. As expected, we can pull the value from vm.stack Workbench.
+
 | Alias | Context | Inline name | Description |
 |---|---|---|---|
 | . | TS | return | Pull value from current stack and push it to Workbench |
