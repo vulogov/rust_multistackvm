@@ -19,11 +19,14 @@ pub struct VM {
     pub command_fun:    collections::HashMap<String, VMInlineFn>,
     pub lambdas:        collections::HashMap<String, Value>,
     pub name_mapping:   collections::HashMap<String, String>,
+    pub stacks_stack:   collections::VecDeque<String>,
 }
 
 impl VM {
     fn init() -> Self {
         let vmid = nanoid!();
+        let mut ss: collections::VecDeque<String> = collections::VecDeque::new();
+        ss.push_back("main".to_string());
         Self {
             id:             vmid,
             autoadd:        false,
@@ -32,6 +35,7 @@ impl VM {
             command_fun:    collections::HashMap::new(),
             name_mapping:   collections::HashMap::new(),
             lambdas:        collections::HashMap::new(),
+            stacks_stack:   ss,
         }
     }
     ///

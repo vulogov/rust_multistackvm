@@ -24,4 +24,17 @@ mod tests {
         assert_eq!(vm.is_alias("display".to_string()), true);
     }
 
+    #[test]
+    fn test_vm_stacks_stack1() {
+        let mut vm = VM::new();
+        assert_eq!(vm.peek_stacks().unwrap(), "main");
+    }
+
+    #[test]
+    fn test_vm_stacks_stack2() {
+        let mut vm = VM::new();
+        vm.to_stack("TEST".to_string()).unwrap();
+        assert_eq!(vm.peek_stacks().unwrap(), "TEST");
+    }
+
 }

@@ -99,6 +99,10 @@ These inline functions are defined for the VM, with additional inline functions 
 | lambda | Places an empty lambda to stack |
 | ptr | Places an PTR reference to function to stack |
 | execute | Takes PTR function from the stack and execute inline or lambda referred by this PTR |
+| clear_stacks | Clear stack of stacks |
+| drop_stacks | Drop top name of stack from stack of stacks |
+
+
 
 ## VM control functions
 
