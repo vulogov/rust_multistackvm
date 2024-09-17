@@ -35,6 +35,25 @@ impl VM {
                     }
                 }
             }
+            CONTEXT => {
+                match value.cast_string() {
+                    Ok(ctx_name) => {
+                        if self.autoadd {
+                            self.stack.push_to_stack(name.clone(), value);
+                        } else {
+                            match self.to_stack(ctx_name) {
+                                Ok(_) => {}
+                                Err(err) => {
+                                    bail!("Switching to a stack returns error: {}", err);
+                                }
+                            }
+                        }
+                    }
+                    Err(err) => {
+                        bail!("Can not get the name of context from the CONTEXT value: {}", err);
+                    }
+                }
+            }
             _ => {
                 if self.autoadd {
                     match self.stack.pull_from_stack(name.clone()) {

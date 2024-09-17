@@ -31,7 +31,26 @@ impl VM {
                         }
                     }
                     Err(err) => {
-                        bail!("Can not get the name of function the CALL value: {}", err);
+                        bail!("Can not get the name of function from the CALL value: {}", err);
+                    }
+                }
+            }
+            CONTEXT => {
+                match value.cast_string() {
+                    Ok(ctx_name) => {
+                        if self.autoadd {
+                            self.stack.push(value);
+                        } else {
+                            match self.to_stack(ctx_name) {
+                                Ok(_) => {}
+                                Err(err) => {
+                                    bail!("Switching to a stack returns error: {}", err);
+                                }
+                            }
+                        }
+                    }
+                    Err(err) => {
+                        bail!("Can not get the name of context from the CONTEXT value: {}", err);
                     }
                 }
             }
