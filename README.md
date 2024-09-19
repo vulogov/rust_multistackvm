@@ -96,6 +96,8 @@ These inline functions are defined for the VM, with additional inline functions 
 | alias| Takes two string values from stack and create alias for a function or lambda |
 | unalias | Takes a single string from stack and remove alias referred by this name |
 | list | Places an empty list to stack |
+| dict | Place empty dictionary to the stack |
+| nodata | Place NODATA element to the stack |
 | lambda | Places an empty lambda to stack |
 | ptr | Places an PTR reference to function to stack |
 | true | Places an TRUE boolean value to to stack |
