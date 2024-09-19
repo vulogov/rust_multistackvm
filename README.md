@@ -118,6 +118,8 @@ Here is the group of functions covering the application logic
 |---|---|
 | if | This function will (or will not) execute lambda function stored in stack if stack having a boolean value |
 | if.stack | This function will (or will not) execute lambda function stored in stack if current stack matches the name |
+| loop | This function will loop over all elements of the list that is obtained from stack, push the value to the stack and evaluate lambda for each pushed value |
+
 
 Examples of use IF conditional functions
 
@@ -136,6 +138,15 @@ if
 }
 if.stack
 ```
+
+Example of use LOOP function
+
+```rust
+[ 42 ] { . } loop
+```
+
+In this example, we are pushing content of the list to stack and evaluate lambda after each push. This code will push integer 42 to workbench.
+
 
 There are number of internal libraries for multistackvm
 

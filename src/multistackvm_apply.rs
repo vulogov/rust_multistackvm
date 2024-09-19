@@ -13,7 +13,14 @@ impl VM {
                             return self.c(fun_name.clone());
                         } else {
                             if self.autoadd {
-                                self.stack.push(value);
+                                match self.stack.pull() {
+                                    Some(mut val) => {
+                                        self.stack.push(val.push(value));
+                                    }
+                                    None => {
+                                        bail!("Autoadd found no working data on stack");
+                                    }
+                                }
                             } else {
                                 if self.is_lambda(fun_name.clone()) {
                                     match self.get_lambda(fun_name.clone()) {
