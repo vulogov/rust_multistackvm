@@ -98,6 +98,8 @@ These inline functions are defined for the VM, with additional inline functions 
 | list | Places an empty list to stack |
 | lambda | Places an empty lambda to stack |
 | ptr | Places an PTR reference to function to stack |
+| true | Places an TRUE boolean value to to stack |
+| false | Places an FALSE boolean value to to stack |
 | execute | Takes PTR function from the stack and execute inline or lambda referred by this PTR |
 | clear_stacks | Clear stack of stacks |
 | drop_stacks | Drop top name of stack from stack of stacks |
@@ -109,6 +111,15 @@ These inline functions are defined for the VM, with additional inline functions 
 | -. | Mathematical sub of value on workbench with value on the stack. Result is pushed to workbench |
 | *. | Mathematical mul of value on workbench with value on the stack. Result is pushed to workbench |
 | /. | Mathematical div of value on workbench with value on the stack. Result is pushed to workbench |
+
+There are number of internal libraries for multistackvm
+
+### String library
+
+| Function name | Description |
+|---|---|
+| string.upper | Return value stored in stack in UPPERCASE |
+| string.lower | Return value stored in stack in UPPERCASE |
 
 ## VM control functions
 

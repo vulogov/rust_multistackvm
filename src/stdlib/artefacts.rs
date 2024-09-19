@@ -32,8 +32,18 @@ pub fn stdlib_ptr_inline(vm: &mut VM) -> Result<&mut VM, Error> {
     }
 }
 
+pub fn stdlib_bool_true_inline(vm: &mut VM) -> Result<&mut VM, Error> {
+    vm.apply(Value::from_bool(true))
+}
+
+pub fn stdlib_bool_false_inline(vm: &mut VM) -> Result<&mut VM, Error> {
+    vm.apply(Value::from_bool(false))
+}
+
 pub fn init_stdlib(vm: &mut VM) {
     let _ = vm.register_inline("list".to_string(), stdlib_list_inline);
     let _ = vm.register_inline("lambda".to_string(), stdlib_lambda_inline);
     let _ = vm.register_inline("ptr".to_string(), stdlib_ptr_inline);
+    let _ = vm.register_inline("true".to_string(), stdlib_bool_true_inline);
+    let _ = vm.register_inline("false".to_string(), stdlib_bool_false_inline);
 }

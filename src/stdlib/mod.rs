@@ -9,6 +9,7 @@ pub mod execute;
 pub mod stacks;
 pub mod ctx;
 pub mod math;
+pub mod string;
 
 pub fn init_stdlib(vm: &mut VM) {
     print::init_stdlib(vm);
@@ -19,6 +20,7 @@ pub fn init_stdlib(vm: &mut VM) {
     stacks::init_stdlib(vm);
     ctx::init_stdlib(vm);
     math::init_stdlib(vm);
+    string::init_stdlib(vm);
     // And then let's create aliases
     create_aliases::init_stdlib(vm);
 }
