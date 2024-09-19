@@ -114,12 +114,43 @@ These inline functions are defined for the VM, with additional inline functions 
 
 There are number of internal libraries for multistackvm
 
+### Math library
+
+| Function name | Description |
+|---|---|
+| float.NaN | Return float point NaN to stack |
+| float.+Inf | Return float point +Inf to stack |
+| float.-Inf | Return float point -Inf to stack |
+| float.Pi| Return float point Pi to stack |
+| float.E | Return float point E to stack |
+| math.floor | Return floor() computed for float point to stack |
+| math.abs | Return abs() computed for float point to stack |
+| math.signum | Return signum() computed for float point to stack |
+| math.cbrt | Return cbrt() - cubic root computed for float point to stack |
+| math.ceil | Return ceil() computed for float point to stack |
+| math.round | Return round() computed for float point to stack |
+| math.fract | Return fract() computed for float point to stack |
+| math.sqrt | Return sqrt() computed for float point to stack |
+| math.sin | Return sin() computed for float point to stack |
+| math.cos | Return cos() computed for float point to stack |
+| math.tan | Return tan() computed for float point to stack |
+| math.asin | Return asin() computed for float point to stack |
+| math.acos | Return acos() computed for float point to stack |
+| math.atan | Return atan() computed for float point to stack |
+| math.sinh | Return sinh() computed for float point to stack |
+| math.cosh | Return cosh() computed for float point to stack |
+| math.tanh | Return tanh() computed for float point to stack |
+
 ### String library
 
 | Function name | Description |
 |---|---|
 | string.upper | Return value stored in stack in UPPERCASE |
 | string.lower | Return value stored in stack in LOWERCASE |
+| string.title | Return value stored in stack in TITLE |
+| string.camel | Return value stored in stack in CAMELCASE |
+| string.snake | Return value stored in stack in SNAKECASE |
+
 
 ### Conversion library
 
@@ -130,6 +161,14 @@ There are number of internal libraries for multistackvm
 | convert.to_float | Convert value from supported value types to FLOAT |
 | convert.to_bool | Convert value from supported value types to BOOL |
 | convert.to_list | Convert value from supported value types to LIST |
+
+### Time library
+
+| Function name | Description |
+|---|---|
+| time.now | Return current timestamp to stack |
+| time.timestamp | Create timestamp from INT that taken from stack |
+
 
 ## VM control functions
 
