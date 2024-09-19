@@ -112,6 +112,31 @@ These inline functions are defined for the VM, with additional inline functions 
 | *. | Mathematical mul of value on workbench with value on the stack. Result is pushed to workbench |
 | /. | Mathematical div of value on workbench with value on the stack. Result is pushed to workbench |
 
+Here is the group of functions covering the application logic
+
+| Function name | Description |
+|---|---|
+| if | This function will (or will not) execute lambda function stored in stack if stack having a boolean value |
+| if.stack | This function will (or will not) execute lambda function stored in stack if current stack matches the name |
+
+Examples of use IF conditional functions
+
+```rust
+true
+{
+  // This code will be executed
+}
+if
+```
+
+```rust
+:main
+{
+  // This code will be executed only if name of the current stack is "main"
+}
+if.stack
+```
+
 There are number of internal libraries for multistackvm
 
 ### Math library
