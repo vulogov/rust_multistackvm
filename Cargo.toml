@@ -1,6 +1,6 @@
 [package]
 name = "rust_multistackvm"
-version = "0.6.0"
+version = "0.7.0"
 edition = "2021"
 description = "Stack-based virtual machine on top of rust_multistack crate"
 license-file = "LICENSE"
