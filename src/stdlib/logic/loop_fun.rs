@@ -33,7 +33,6 @@ pub fn stdlib_logic_loop(vm: &mut VM) -> Result<&mut VM, Error> {
                     }
                 }
             } else {
-                println!("{:?}", &lambda_val);
                 bail!("LOOP: #1 parameter must be lambda");
             }
         }
