@@ -105,7 +105,7 @@ These inline functions are defined for the VM, with additional inline functions 
 | execute | Takes PTR function from the stack and execute inline or lambda referred by this PTR |
 | clear_stacks | Clear stack of stacks |
 | drop_stacks | Drop top name of stack from stack of stacks |
-| + | Mathematical add of two values on the stack |
+| + | Mathematical add of two values on the stack. If the Value is of type LIST, appending or merging of lists will be executed. |
 | - | Mathematical sub of two values on the stack |
 | * | Mathematical mul of two values on the stack |
 | / | Mathematical div of two values on the stack |
