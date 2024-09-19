@@ -119,7 +119,7 @@ There are number of internal libraries for multistackvm
 | Function name | Description |
 |---|---|
 | string.upper | Return value stored in stack in UPPERCASE |
-| string.lower | Return value stored in stack in UPPERCASE |
+| string.lower | Return value stored in stack in LOWERCASE |
 
 ## VM control functions
 
