@@ -90,9 +90,32 @@ pub fn stdlib_convert_to_bool(vm: &mut VM) -> Result<&mut VM, Error> {
     Ok(vm)
 }
 
+pub fn stdlib_convert_to_list(vm: &mut VM) -> Result<&mut VM, Error> {
+    if vm.stack.current_stack_len() < 1 {
+        bail!("Stack is too shallow for inline convert_list");
+    }
+    match vm.stack.pull() {
+        Some(value) => {
+            match value.conv(LIST) {
+                Ok(nvalue) => {
+                    vm.stack.push(nvalue);
+                }
+                Err(err) => {
+                    bail!("CONVERT.TO_LIST returned error: {}", err);
+                }
+            }
+        }
+        None => {
+            bail!("CONVERT.TO_LIST returns: NO DATA #1");
+        }
+    }
+    Ok(vm)
+}
+
 pub fn init_stdlib(vm: &mut VM) {
     let _ = vm.register_inline("convert.to_string".to_string(), stdlib_convert_to_string);
     let _ = vm.register_inline("convert.to_int".to_string(), stdlib_convert_to_int);
     let _ = vm.register_inline("convert.to_float".to_string(), stdlib_convert_to_float);
     let _ = vm.register_inline("convert.to_bool".to_string(), stdlib_convert_to_bool);
+    let _ = vm.register_inline("convert.to_list".to_string(), stdlib_convert_to_list);
 }

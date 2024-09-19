@@ -61,4 +61,13 @@ mod tests {
         assert_eq!(val.cast_bool().unwrap(), true);
     }
 
+    #[test]
+    fn test_vm_apply_convert_to_list() {
+        let mut vm = VM::new();
+        vm.apply(Value::from(42.0).unwrap()).unwrap();
+        vm.apply(Value::call("convert.to_list".to_string(), Vec::new())).unwrap();
+        let val = vm.stack.pull().expect("No pull() happens");
+        assert_eq!(val.cast_list().unwrap().len(), 1);
+    }
+
 }

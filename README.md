@@ -121,6 +121,16 @@ There are number of internal libraries for multistackvm
 | string.upper | Return value stored in stack in UPPERCASE |
 | string.lower | Return value stored in stack in LOWERCASE |
 
+### Conversion library
+
+| Function name | Description |
+|---|---|
+| convert.to_string | Convert value from supported value types to STRING |
+| convert.to_int | Convert value from supported value types to INT |
+| convert.to_float | Convert value from supported value types to FLOAT |
+| convert.to_bool | Convert value from supported value types to BOOL |
+| convert.to_list | Convert value from supported value types to LIST |
+
 ## VM control functions
 
 | Function name | Description |
