@@ -1,5 +1,6 @@
 use crate::multistackvm::VM;
 use rust_dynamic::value::Value;
+use rust_dynamic::types::*;
 use rust_dynamic::math::Ops;
 use easy_error::{Error, bail};
 
@@ -8,15 +9,37 @@ pub fn stdlib_add_inline(vm: &mut VM) -> Result<&mut VM, Error> {
         bail!("Stack is too shallow for inline add");
     }
     match vm.stack.pull() {
-        Some(value1) => {
+        Some(mut value1) => {
+            println!("{:?}", &value1);
             match vm.stack.pull() {
                 Some(value2) => {
-                    match Value::numeric_op(Ops::Add, value1, value2) {
-                        Ok(nvalue) => {
-                            vm.stack.push(nvalue);
+                    match value1.dt {
+                        LIST => {
+                            match value2.dt {
+                                LIST => {
+                                    let mut res = Value::list();
+                                    for v in value1 {
+                                        res = res.push(v);
+                                    }
+                                    for v in value2 {
+                                        res = res.push(v);
+                                    }
+                                    vm.stack.push(res);
+                                }
+                                _ => {
+                                    vm.stack.push(value1.push(value2));
+                                }
+                            }
                         }
-                        Err(err) => {
-                            bail!("ADD returns error: {}", err);
+                        _ => {
+                            match Value::numeric_op(Ops::Add, value1, value2) {
+                                Ok(nvalue) => {
+                                    vm.stack.push(nvalue);
+                                }
+                                Err(err) => {
+                                    bail!("ADD returns error: {}", err);
+                                }
+                            }
                         }
                     }
                 }
