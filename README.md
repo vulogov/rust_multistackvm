@@ -117,6 +117,23 @@ These inline functions are defined for the VM, with additional inline functions 
 | *. | Mathematical mul of value on workbench with value on the stack. Result is pushed to workbench |
 | /. | Mathematical div of value on workbench with value on the stack. Result is pushed to workbench |
 
+Here is the group of functions to work with application-defined anonymous and named functions
+
+| Function name | Description |
+|---|---|
+| register | Register lambda function as named function |
+| unregister | Remove named function |
+| execute | Execute lambda function |
+
+```rust
+// First, let's define function and register it with name "FortyTwo"
+:FortyTwo {
+  42
+} register
+// And then let's execute it
+FortyTwo
+```
+
 Here is the group of functions covering the application logic
 
 | Function name | Description |

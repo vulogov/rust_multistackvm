@@ -1,9 +1,13 @@
 use crate::multistackvm::*;
 use rust_dynamic::value::Value;
+use rust_dynamic::types::*;
 use easy_error::{bail, Error};
 
 impl VM {
     pub fn register_lambda(&mut self, name: String, lambda: Value) -> Result<&mut VM, Error> {
+        if ! lambda.is_type(LAMBDA) {
+            bail!("register: argument #1 is not a lambda function");
+        }
         match self.unregister_lambda(name.clone()) {
             Ok(_) => {
                 self.lambdas.insert(name, lambda);

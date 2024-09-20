@@ -14,6 +14,7 @@ pub mod convert;
 pub mod time;
 pub mod logic;
 pub mod values;
+pub mod lambdas;
 
 
 pub fn init_stdlib(vm: &mut VM) {
@@ -30,6 +31,7 @@ pub fn init_stdlib(vm: &mut VM) {
     time::init_stdlib(vm);
     logic::init_stdlib(vm);
     values::init_stdlib(vm);
+    lambdas::init_stdlib(vm);
     // And then let's create aliases
     create_aliases::init_stdlib(vm);
 }
