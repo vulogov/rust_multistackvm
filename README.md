@@ -142,6 +142,7 @@ Here is the group of functions covering the application logic
 | if.stack | This function will (or will not) execute lambda function stored in stack if current stack matches the name |
 | loop | This function will loop over all elements of the list that is obtained from stack, push the value to the stack and evaluate lambda for each pushed value |
 | while | This function will execute lambda function until detect FALSE value on the stack |
+| for | This function will execute lambda function in the loop until it returns FALSE |
 
 
 Examples of use IF conditional functions
@@ -176,6 +177,15 @@ true
   42.0 . false
 }
 while
+```
+
+Example of FOR function
+
+```rust
+{
+  "This lambda function will be executed at least once " println
+  false
+} for
 ```
 
 After single loop over lambda, condition is met and number 42.0 is in workbench
