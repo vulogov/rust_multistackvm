@@ -15,8 +15,12 @@ impl VM {
                             if self.autoadd {
                                 self.stack.push_to_stack(name.clone(), value);
                             } else {
-                                if self.is_lambda(fun_name.clone()) {
-                                    match self.get_lambda(fun_name.clone()) {
+                                let real_name = match self.get_alias(fun_name.clone()) {
+                                    Ok(real_name) => real_name,
+                                    Err(_) => fun_name.clone(),
+                                };
+                                if self.is_lambda(real_name.clone()) {
+                                    match self.get_lambda(real_name.clone()) {
                                         Ok(lambda) => {
                                             return self.lambda_eval_in(name.clone(), lambda);
                                         }
@@ -25,7 +29,7 @@ impl VM {
                                         }
                                     }
                                 } else {
-                                    return self.i(fun_name.clone());
+                                    return self.i(real_name.clone());
                                 }
                             }
                         }
