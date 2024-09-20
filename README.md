@@ -103,6 +103,7 @@ These inline functions are defined for the VM, with additional inline functions 
 | true | Places an TRUE boolean value to to stack |
 | false | Places an FALSE boolean value to to stack |
 | execute | Takes PTR function from the stack and execute inline or lambda referred by this PTR |
+| resolve | Resolving lambda or inline function to PTR if function exists, raise an Error otherwise |
 | len | Peeking for the value on the stack and pushing it's length |
 | attribute | Assign attribute to the value on top of the stack |
 | tag | Tag value on top of the stack |
