@@ -166,6 +166,28 @@ After single loop over lambda, condition is met and number 42.0 is in workbench
 
 In this example, we are pushing content of the list to stack and evaluate lambda after each push. This code will push integer 42 to workbench.
 
+And here is functions that is working with dictionaries
+
+| Function name | Description |
+|---|---|
+| dict | Create an empry dictionary and store it on stack |
+| set | Set the value in dictionary |
+| get | Get value from dictionary |
+
+```rust
+// We create an empty dictionary
+dict
+  // Then provide a key-value
+  :ANSWER
+  42.0
+  // And set the value. Dictionary is on top of stack
+  set
+  // Set the key and get the Value
+  :ANSWER
+  get
+// This snippet shall render 42.0 on top of the stack
+```
+
 
 There are number of internal libraries for multistackvm
 
