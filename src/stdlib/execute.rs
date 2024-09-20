@@ -20,6 +20,9 @@ pub fn stdlib_execute_inline(vm: &mut VM) -> Result<&mut VM, Error> {
                         }
                     }
                 }
+                LAMBDA => {
+                    return vm.lambda_eval(ptr_value);
+                }
                 _ => {
                     bail!("Value on the stack is not PTR type");
                 }
