@@ -13,6 +13,8 @@ pub mod string;
 pub mod convert;
 pub mod time;
 pub mod logic;
+pub mod values;
+
 
 pub fn init_stdlib(vm: &mut VM) {
     print::init_stdlib(vm);
@@ -27,6 +29,7 @@ pub fn init_stdlib(vm: &mut VM) {
     convert::init_stdlib(vm);
     time::init_stdlib(vm);
     logic::init_stdlib(vm);
+    values::init_stdlib(vm);
     // And then let's create aliases
     create_aliases::init_stdlib(vm);
 }

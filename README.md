@@ -103,6 +103,9 @@ These inline functions are defined for the VM, with additional inline functions 
 | true | Places an TRUE boolean value to to stack |
 | false | Places an FALSE boolean value to to stack |
 | execute | Takes PTR function from the stack and execute inline or lambda referred by this PTR |
+| len | Peeking for the value on the stack and pushing it's length |
+| attribute | Assign attribute to the value on top of the stack |
+| tag | Tag value on top of the stack |
 | clear_stacks | Clear stack of stacks |
 | drop_stacks | Drop top name of stack from stack of stacks |
 | + | Mathematical add of two values on the stack. If the Value is of type LIST, appending or merging of lists will be executed. |
