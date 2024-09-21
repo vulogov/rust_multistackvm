@@ -126,6 +126,21 @@ Group of functions for boolean logic operations
 | and | Perform boolean AND operation |
 | or | Perform boolean OR operation |
 
+Group of function for comparing values on the stack. Returns a boolean value
+
+| Function name | Description |
+|---|---|
+| == | EQ compare operation |
+| != | NE compare operation |
+| > | GT compare operation |
+| < | LT compare operation |
+| >= | GT or EQ compare operation |
+| <= | LT or EQ compare operation |
+
+```rust
+1 0 <     // Will return TRUE on stack
+```
+
 Here is the group of functions to work with application-defined anonymous and named functions
 
 | Function name | Description |

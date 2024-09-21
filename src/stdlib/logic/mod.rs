@@ -5,6 +5,7 @@ pub mod loop_fun;
 pub mod while_fun;
 pub mod for_fun;
 pub mod logic_ops_fun;
+pub mod logic_compare_fun;
 
 pub fn init_stdlib(vm: &mut VM) {
     if_fun::init_stdlib(vm);
@@ -12,4 +13,5 @@ pub fn init_stdlib(vm: &mut VM) {
     while_fun::init_stdlib(vm);
     for_fun::init_stdlib(vm);
     logic_ops_fun::init_stdlib(vm);
+    logic_compare_fun::init_stdlib(vm);
 }
