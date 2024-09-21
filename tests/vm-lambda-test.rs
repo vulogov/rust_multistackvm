@@ -40,7 +40,11 @@ mod tests {
         let val = vm.stack.pull().expect("No pull() happens");
         assert_eq!(val.cast_string().unwrap(), "FourtyTwo");
     }
-
+    //
+    // :FourtyTwo lambda : 42.0 ; register
+    // :FourtyTwo :answer alias
+    // :answer resolve // PTR to FourtyTwo shall be in the stack 
+    //
     #[test]
     fn test_vm_apply_alias_resolve() {
         let mut vm = VM::new();
