@@ -118,6 +118,14 @@ These inline functions are defined for the VM, with additional inline functions 
 | *. | Mathematical mul of value on workbench with value on the stack. Result is pushed to workbench |
 | /. | Mathematical div of value on workbench with value on the stack. Result is pushed to workbench |
 
+Group of functions for boolean logic operations
+
+| Function name | Description |
+|---|---|
+| not | Perform boolean NOT operation |
+| and | Perform boolean AND operation |
+| or | Perform boolean OR operation |
+
 Here is the group of functions to work with application-defined anonymous and named functions
 
 | Function name | Description |

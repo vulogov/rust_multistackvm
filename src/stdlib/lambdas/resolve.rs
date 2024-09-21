@@ -10,12 +10,16 @@ pub fn stdlib_function_resolve(vm: &mut VM) -> Result<&mut VM, Error> {
         Some(name_value) => {
             match name_value.cast_string() {
                 Ok(name) => {
-                    if vm.is_lambda(name.clone()) {
-                        return vm.apply(Value::ptr(name.clone(), Vec::new()));
-                    } else if vm.is_inline(name.clone()) {
-                        return vm.apply(Value::ptr(name.clone(), Vec::new()));
-                    } else if vm.stack.is_inline(name.clone()) {
-                        return vm.apply(Value::ptr(name.clone(), Vec::new()));
+                    let real_name = match vm.get_alias(name.clone()) {
+                        Ok(real_name) => real_name,
+                        Err(_) => name.clone(),
+                    };
+                    if vm.is_lambda(real_name.clone()) {
+                        return vm.apply(Value::ptr(real_name.clone(), Vec::new()));
+                    } else if vm.is_inline(real_name.clone()) {
+                        return vm.apply(Value::ptr(real_name.clone(), Vec::new()));
+                    } else if vm.stack.is_inline(real_name.clone()) {
+                        return vm.apply(Value::ptr(real_name.clone(), Vec::new()));
                     } else {
                         bail!("RESOLVE: function {} not found", &name);
                     }
