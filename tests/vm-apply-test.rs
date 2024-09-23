@@ -24,6 +24,33 @@ mod tests {
     }
 
     #[test]
+    fn test_vm_apply_call_inline_dup() {
+        let mut vm = VM::new();
+        vm.apply(Value::from(42.0).unwrap()).unwrap();
+        vm.apply(Value::call("dup".to_string(), Vec::new())).unwrap();
+        assert_eq!(vm.stack.current_stack_len(), 2);
+    }
+
+    #[test]
+    fn test_vm_apply_call_inline_drop() {
+        let mut vm = VM::new();
+        vm.apply(Value::from(42.0).unwrap()).unwrap();
+        vm.apply(Value::from(41.0).unwrap()).unwrap();
+        vm.apply(Value::call("drop".to_string(), Vec::new())).unwrap();
+        assert_eq!(vm.stack.current_stack_len(), 1);
+    }
+
+    #[test]
+    fn test_vm_apply_call_inline_swap() {
+        let mut vm = VM::new();
+        vm.apply(Value::from(42.0).unwrap()).unwrap();
+        vm.apply(Value::from(41.0).unwrap()).unwrap();
+        vm.apply(Value::call("swap".to_string(), Vec::new())).unwrap();
+        let val = vm.stack.pull().unwrap();
+        assert_eq!(val.cast_float().unwrap(), 42.0 as f64);
+    }
+
+    #[test]
     fn test_vm_apply_autoadd0_value() {
         let mut vm = VM::new();
         vm.apply(Value::call("list".to_string(), Vec::new())).unwrap();
