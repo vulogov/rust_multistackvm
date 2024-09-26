@@ -167,7 +167,8 @@ Here is the group of functions covering the application logic
 | loop | This function will loop over all elements of the list that is obtained from stack, push the value to the stack and evaluate lambda for each pushed value |
 | while | This function will execute lambda function until detect FALSE value on the stack |
 | for | This function will execute lambda function in the loop until it returns FALSE |
-
+| do | This function will execute lambda function util current stack is empty |
+| times | This function will execute lambda function number of times as specified by the value pushed from the stack |
 
 Examples of use IF conditional functions
 
