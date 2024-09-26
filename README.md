@@ -95,6 +95,7 @@ These inline functions are defined for the VM, with additional inline functions 
 | println. | Takes a single value from workbench and prints it with newline |
 | space | prints a single space |
 | nl | Prints a new line |
+| format | Taking a format string from the stack and then for all key sequentially start to get values from stack. Names are not important, but they will be resolved as they are allocated in the stack |
 | alias| Takes two string values from stack and create alias for a function or lambda |
 | unalias | Takes a single string from stack and remove alias referred by this name |
 | list | Places an empty list to stack |
@@ -120,6 +121,20 @@ These inline functions are defined for the VM, with additional inline functions 
 | -. | Mathematical sub of value on workbench with value on the stack. Result is pushed to workbench |
 | *. | Mathematical mul of value on workbench with value on the stack. Result is pushed to workbench |
 | /. | Mathematical div of value on workbench with value on the stack. Result is pushed to workbench |
+
+Example of the format function
+
+```rust
+41 42     // For format variables a
+          // and b, a = 42, b = 41 since they are
+          // resolved as allocated
+"Answer is {a}, but not {b}. It is really {a}!" format
+```
+This snippet will leave foollowing string on the stack:
+
+```rust
+"Answer is 42, but not 41. It is really 42!"
+```
 
 Group of functions for boolean logic operations
 
