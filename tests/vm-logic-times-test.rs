@@ -41,4 +41,23 @@ mod tests {
         assert_eq!(val.cast_int().unwrap(), 3 as i64);
     }
 
+    #[test]
+    fn test_vm_apply_times3() {
+        let mut vm = VM::new();
+        // Initial value for mathematic
+        vm.apply(Value::from(0).unwrap()).unwrap();
+        // Let's specify number of iteractions
+        vm.apply(Value::from(3).unwrap()).unwrap();
+        vm.apply(Value::call(".".to_string(), Vec::new())).unwrap();
+        // Then let's create lambda
+        vm.apply(Value::call("lambda".to_string(), Vec::new())).unwrap();
+        vm.apply(Value::call(":".to_string(), Vec::new())).unwrap();
+        vm.apply(Value::call("+".to_string(), Vec::new())).unwrap();
+        vm.apply(Value::call(";".to_string(), Vec::new())).unwrap();
+        // Call for looping over list
+        vm.apply(Value::call("times.".to_string(), Vec::new())).unwrap();
+        let val = vm.stack.pull().expect("No pull() happens");
+        assert_eq!(val.cast_int().unwrap(), 3 as i64);
+    }
+
 }
