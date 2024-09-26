@@ -104,7 +104,8 @@ These inline functions are defined for the VM, with additional inline functions 
 | ptr | Places an PTR reference to function to stack |
 | true | Places an TRUE boolean value to to stack |
 | false | Places an FALSE boolean value to to stack |
-| execute | Takes PTR function from the stack and execute inline or lambda referred by this PTR |
+| execute | Takes executable context information from the stack and execute inline or lambda referred by this information |
+| execute. | Takes executable context information from workbench and execute inline or lambda referred by this information |
 | resolve | Resolving lambda or inline function to PTR if function exists, raise an Error otherwise |
 | len | Peeking for the value on the stack and pushing it's length |
 | attribute | Assign attribute to the value on top of the stack |
