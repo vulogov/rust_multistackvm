@@ -3,6 +3,9 @@ use easy_error::{Error, bail};
 
 
 pub fn stdlib_endcontext(vm: &mut VM) -> Result<&mut VM, Error> {
+    if vm.stacks_stack.len() < 1 {
+        bail!("Context is empty");
+    }
     match vm.stack.drop_stack() {
         Ok(_) => {
             let _ = vm.pop_stacks();
