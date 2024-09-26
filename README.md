@@ -205,6 +205,8 @@ true
 while
 ```
 
+After single loop over lambda, condition is met and number 42.0 is in workbench
+
 Example of FOR function
 
 ```rust
@@ -213,9 +215,19 @@ Example of FOR function
   false
 } for
 ```
+After single loop over lambda, condition is met.
 
-After single loop over lambda, condition is met and number 42.0 is in workbench
+Example of TIMES. function
 
+```rust
+0       // Send an initial value
+3 .     // Send a counter to workbench
+{
+  +     // Perform math operation in lambda
+} times.
+```
+
+This snippet will execute lambda function three times and leave number 3 on top of the stack.
 
 In this example, we are pushing content of the list to stack and evaluate lambda after each push. This code will push integer 42 to workbench.
 
