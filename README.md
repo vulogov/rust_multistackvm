@@ -96,6 +96,7 @@ These inline functions are defined for the VM, with additional inline functions 
 | space | prints a single space |
 | nl | Prints a new line |
 | format | Taking a format string from the stack and then for all key sequentially start to get values from stack. Names are not important, but they will be resolved as they are allocated in the stack |
+| format. | Taking a format string from the workbench and then for all key sequentially start to get values from stack. Names are not important, but they will be resolved as they are allocated in the stack |
 | alias| Takes two string values from stack and create alias for a function or lambda |
 | unalias | Takes a single string from stack and remove alias referred by this name |
 | list | Places an empty list to stack |
