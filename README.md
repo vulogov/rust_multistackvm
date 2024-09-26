@@ -91,6 +91,8 @@ These inline functions are defined for the VM, with additional inline functions 
 |---|---|
 | print | Takes a single value from stack and prints it |
 | println | Takes a single value from stack and prints it with newline |
+| print. | Takes a single value from workbench and prints it |
+| println. | Takes a single value from workbench and prints it with newline |
 | space | prints a single space |
 | nl | Prints a new line |
 | alias| Takes two string values from stack and create alias for a function or lambda |
