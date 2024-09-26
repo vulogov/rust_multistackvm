@@ -11,3 +11,4 @@ pub mod multistackvm_apply_in;
 pub mod multistackvm_call;
 pub mod multistackvm_stacks_stack;
 pub mod multistackvm_to_stack;
+pub mod multistackvm_call_internal_word;

@@ -9,6 +9,9 @@ impl VM {
             CALL => {
                 match value.cast_string() {
                     Ok(fun_name) => {
+                        if fun_name.len() == 0 {
+                            bail!("Empty function name passed for CALL");
+                        }
                         if self.is_command(fun_name.clone()) {
                             return self.c(fun_name.clone());
                         } else {
@@ -22,10 +25,23 @@ impl VM {
                                     }
                                 }
                             } else {
+                                //
+                                // If function name starts with '$' we are forcing to call internal function
+                                // without lambda check or alias resolution
+                                //
+                                if fun_name.chars().nth(0).unwrap() == '$' {
+                                    return self.call_internal_word(fun_name.clone());
+                                }
+                                //
+                                // Or we start with alias resolution
+                                //
                                 let real_name = match self.get_alias(fun_name.clone()) {
                                     Ok(real_name) => real_name,
                                     Err(_) => fun_name.clone(),
                                 };
+                                //
+                                // If function is lambda
+                                //
                                 if self.is_lambda(real_name.clone()) {
                                     match self.get_lambda(real_name.clone()) {
                                         Ok(lambda) => {
@@ -36,6 +52,9 @@ impl VM {
                                         }
                                     }
                                 } else {
+                                    //
+                                    // Otherwise call an inline
+                                    //
                                     return self.i(real_name.clone());
                                 }
                             }
