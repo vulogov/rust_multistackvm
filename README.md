@@ -173,6 +173,7 @@ Here is the group of functions covering the application logic
 | while | This function will execute lambda function until detect FALSE value on the stack |
 | for | This function will execute lambda function in the loop until it returns FALSE |
 | do | This function will execute lambda function util current stack is empty |
+| do. | This function will execute lambda function taken from workbench util current stack is empty |
 | times | This function will execute lambda function number of times as specified by the value pushed from the stack |
 | times. | This function will execute lambda function number of times as specified by the value pushed from the workbench |
 

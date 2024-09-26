@@ -46,7 +46,7 @@ pub fn stdlib_logic_times(vm: &mut VM) -> Result<&mut VM, Error> {
 
 
 pub fn stdlib_logic_times_from_workbench(vm: &mut VM) -> Result<&mut VM, Error> {
-    if vm.stack.current_stack_len() < 2 {
+    if vm.stack.current_stack_len() < 1 {
         bail!("Stack is too shallow for inline times");
     }
     match vm.stack.pull() {
