@@ -57,5 +57,4 @@ pub fn init_stdlib(vm: &mut VM) {
     let _ = vm.register_inline("float.Pi".to_string(), stdlib_float_pi_inline);
     let _ = vm.register_inline("float.E".to_string(), stdlib_float_e_inline);
     let _ = vm.register_inline("Pi".to_string(), stdlib_float_compute_pi_inline);
-    let _ = vm.register_alias("π".to_string(), "Pi".to_string());
 }
