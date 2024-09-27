@@ -41,6 +41,35 @@ pub fn stdlib_execute_base_inline(vm: &mut VM, op: StackOps, err_prefix: String)
                         }
                     }
                 }
+                MAP | INFO | CONFIG | ASSOCIATION => {
+                    let key_val = match vm.stack.pull() {
+                        Some(key_val) => key_val,
+                        None => {
+                            bail!("{} can not obtain key for DICT execute", &err_prefix);
+                        }
+                    };
+                    match key_val.cast_string() {
+                        Ok(key) => {
+                            match ptr_value.get(key) {
+                                Ok(exec_val) => {
+                                    vm.stack.push(exec_val);
+                                    match stdlib_execute_base_inline(vm, op.clone(), err_prefix.clone()) {
+                                        Ok(_) => {},
+                                        Err(err) => {
+                                            bail!("{}", err);
+                                        }
+                                    }
+                                }
+                                Err(err) => {
+                                    bail!("{} returned error during DICT execute: {}", &err_prefix, err);
+                                }
+                            }
+                        }
+                        Err(err) => {
+                            bail!("{} returned error during DICT key conversion: {}", &err_prefix, err);
+                        }
+                    }
+                }
                 LAMBDA => {
                     return vm.lambda_eval(ptr_value);
                 }
