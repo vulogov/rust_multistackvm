@@ -7,6 +7,12 @@ use easy_error::{Error};
 
 pub type VMInlineFn   = fn(&mut VM) -> Result<&mut VM, Error>;
 
+#[derive(Debug, Clone)]
+pub enum StackOps {
+    FromStack,
+    FromWorkBench,
+}
+
 ///
 /// Principial structure provining interface to all funcitonality of multi-stack. To create TS structure you shall call TS::new() or TS::new_with_named(name)
 ///
