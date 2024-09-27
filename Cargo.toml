@@ -10,7 +10,6 @@ keywords = ["vm", "stack", "top", "lambda", "execute"]
 
 
 [dependencies]
-compute-pi = "1.0.0"
 convert_case = "0.6.0"
 easy-error = "1.0.0"
 leon = "3.0.1"

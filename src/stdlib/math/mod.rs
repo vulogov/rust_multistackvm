@@ -1,5 +1,6 @@
 use crate::multistackvm::VM;
 
+pub mod math_op;
 pub mod add;
 pub mod mul;
 pub mod sub;

@@ -16,14 +16,14 @@ mod tests {
         assert_eq!(val.cast_string().unwrap(), "42.0");
     }
 
-    // #[test]
-    // fn test_vm_apply_convert_to_textbuffer() {
-    //     let mut vm = VM::new();
-    //     vm.apply(Value::from(42.0).unwrap()).unwrap();
-    //     vm.apply(Value::call("convert.to_textbuffer".to_string(), Vec::new())).unwrap();
-    //     let val = vm.stack.pull().expect("No pull() happens");
-    //     assert_eq!(val.cast_string().unwrap(), "42.0");
-    // }
+    #[test]
+    fn test_vm_apply_convert_to_textbuffer() {
+        let mut vm = VM::new();
+        vm.apply(Value::from(42.0).unwrap()).unwrap();
+        vm.apply(Value::call("convert.to_textbuffer".to_string(), Vec::new())).unwrap();
+        let val = vm.stack.pull().expect("No pull() happens");
+        assert_eq!(val.cast_string().unwrap(), "42.0");
+    }
 
     #[test]
     fn test_vm_apply_convert_to_int() {

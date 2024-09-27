@@ -1,65 +1,52 @@
-use crate::multistackvm::VM;
+use crate::multistackvm::{VM, StackOps};
+use rust_dynamic::types::*;
 use easy_error::{Error, bail};
 
 
-pub fn stdlib_print_inline(vm: &mut VM) -> Result<&mut VM, Error> {
+fn stdlib_print_inline_base(vm: &mut VM, is_nl: bool, op: StackOps, err_prefix: String) -> Result<&mut VM, Error> {
     if vm.stack.current_stack_len() < 1 {
-        bail!("Stack is too shallow for inline print()");
+        bail!("Stack is too shallow for inline {}", &err_prefix);
     }
-    match vm.stack.pull() {
+    let recv_value = match op {
+        StackOps::FromStack => vm.stack.pull(),
+        StackOps::FromWorkBench => vm.stack.pull_from_workbench(),
+    };
+    match recv_value {
         Some(value) => {
-            print!("{}", &value);
+            match value.conv(STRING) {
+                Ok(str_value) => {
+                    print!("{}", &str_value);
+                    if is_nl {
+                        print!("\n");
+                    }
+                }
+                Err(err) => {
+                    bail!("{} returns: {}", &err_prefix, err);
+                }
+            }
         }
         None => {
-            bail!("PRINT returns: NO DATA");
+            bail!("{} returns: NO DATA", &err_prefix);
         }
     }
     Ok(vm)
+}
+
+
+pub fn stdlib_print_inline(vm: &mut VM) -> Result<&mut VM, Error> {
+    stdlib_print_inline_base(vm, false, StackOps::FromStack, "PRINT".to_string())
 }
 
 pub fn stdlib_print_workbench_inline(vm: &mut VM) -> Result<&mut VM, Error> {
-    if vm.stack.current_stack_len() < 1 {
-        bail!("Stack is too shallow for inline print_workbench()");
-    }
-    match vm.stack.pull_from_workbench() {
-        Some(value) => {
-            print!("{}", &value);
-        }
-        None => {
-            bail!("PRINT. returns: NO DATA");
-        }
-    }
-    Ok(vm)
+    stdlib_print_inline_base(vm, false, StackOps::FromWorkBench, "PRINT.".to_string())
 }
 
 pub fn stdlib_println_inline(vm: &mut VM) -> Result<&mut VM, Error> {
-    if vm.stack.current_stack_len() < 1 {
-        bail!("Stack is too shallow for inline println()");
-    }
-    match vm.stack.pull() {
-        Some(value) => {
-            println!("{}", &value);
-        }
-        None => {
-            bail!("PRINT returns: NO DATA");
-        }
-    }
-    Ok(vm)
+    stdlib_print_inline_base(vm, true, StackOps::FromStack, "PRINTLN".to_string())
 }
 
 pub fn stdlib_println_workbench_inline(vm: &mut VM) -> Result<&mut VM, Error> {
-    if vm.stack.current_stack_len() < 1 {
-        bail!("Stack is too shallow for inline println_workbech()");
-    }
-    match vm.stack.pull_from_workbench() {
-        Some(value) => {
-            println!("{}", &value);
-        }
-        None => {
-            bail!("PRINT. returns: NO DATA");
-        }
-    }
-    Ok(vm)
+    stdlib_print_inline_base(vm, true, StackOps::FromWorkBench, "PRINTLN.".to_string())
 }
 
 pub fn stdlib_space_inline(vm: &mut VM) -> Result<&mut VM, Error> {
