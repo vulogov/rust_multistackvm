@@ -195,6 +195,9 @@ Here is the group of functions covering the application logic
 | do. | This function will execute lambda function taken from workbench util current stack is empty |
 | times | This function will execute lambda function number of times as specified by the value pushed from the stack |
 | times. | This function will execute lambda function number of times as specified by the value pushed from the workbench |
+| map | This function will execute lambda function over list of values obtained from stack and will return the list of values for which this function is applied to the stack. Note, function must leave value on stack |
+| map. | This function will execute lambda function over list of values obtained from workbench and will return the list of values for which this function is applied to workbech. Note, function must leave value on stack |
+
 
 Examples of use IF conditional functions
 
@@ -259,6 +262,14 @@ Example of TIMES. function
   +     // Perform math operation in lambda
 } times.
 ```
+Example of MAP function
+
+```rust
+[ "Hello World!"]   // First, let's define data
+{ :string.upper } map
+```
+This snipper will return following value on the list ```[ "HELLO WORLD!"]```
+
 
 This snippet will execute lambda function three times and leave number 3 on top of the stack.
 

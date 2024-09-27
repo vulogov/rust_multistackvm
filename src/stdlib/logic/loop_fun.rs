@@ -1,15 +1,19 @@
-use crate::multistackvm::VM;
+use crate::multistackvm::{VM, StackOps};
 use rust_dynamic::types::LAMBDA;
 use easy_error::{Error, bail};
 
-pub fn stdlib_logic_loop(vm: &mut VM) -> Result<&mut VM, Error> {
-    if vm.stack.current_stack_len() < 2 {
-        bail!("Stack is too shallow for inline loop");
+fn stdlib_logic_loop_base(vm: &mut VM, depth: usize, op: StackOps, err_prefix: String) -> Result<&mut VM, Error> {
+    if vm.stack.current_stack_len() < depth {
+        bail!("Stack is too shallow for inline {}", &err_prefix);
     }
     match vm.stack.pull() {
         Some(lambda_val) => {
             if lambda_val.is_type(LAMBDA) {
-                match vm.stack.pull() {
+                let cond = match op {
+                    StackOps::FromStack => vm.stack.pull(),
+                    StackOps::FromWorkBench => vm.stack.pull_from_workbench(),
+                };
+                match cond {
                     Some(condition_val) => {
                         match condition_val.cast_list() {
                             Ok(cond) => {
@@ -18,70 +22,37 @@ pub fn stdlib_logic_loop(vm: &mut VM) -> Result<&mut VM, Error> {
                                     match vm.lambda_eval(lambda_val.clone()) {
                                         Ok(_) => continue,
                                         Err(err) => {
-                                            bail!("LOOP: lambda execution returns error: {}", err);
+                                            bail!("{}: lambda execution returns error: {}", &err_prefix, err);
                                         }
                                     }
                                 }
                             }
                             Err(err) => {
-                                bail!("LOOP returns error: {}", err);
+                                bail!("{} returns error: {}", &err_prefix, err);
                             }
                         }
                     }
                     None => {
-                        bail!("LOOP returns: NO DATA #2");
+                        bail!("{} returns: NO DATA #2", &err_prefix);
                     }
                 }
             } else {
-                bail!("LOOP: #1 parameter must be lambda");
+                bail!("{}: #1 parameter must be lambda", &err_prefix);
             }
         }
         None => {
-            bail!("LOOP returns: NO DATA #1");
+            bail!("{} returns: NO DATA #1", &err_prefix);
         }
     }
     Ok(vm)
 }
 
+pub fn stdlib_logic_loop(vm: &mut VM) -> Result<&mut VM, Error> {
+    stdlib_logic_loop_base(vm, 2, StackOps::FromStack, "LOOP".to_string())
+}
+
 pub fn stdlib_logic_loop_in_workbench(vm: &mut VM) -> Result<&mut VM, Error> {
-    if vm.stack.current_stack_len() < 1 {
-        bail!("Stack is too shallow for inline loop.workbench()");
-    }
-    match vm.stack.pull() {
-        Some(lambda_val) => {
-            if lambda_val.is_type(LAMBDA) {
-                match vm.stack.pull_from_workbench() {
-                    Some(condition_val) => {
-                        match condition_val.cast_list() {
-                            Ok(cond) => {
-                                for v in cond {
-                                    vm.stack.push(v);
-                                    match vm.lambda_eval(lambda_val.clone()) {
-                                        Ok(_) => continue,
-                                        Err(err) => {
-                                            bail!("LOOP.: lambda execution returns error: {}", err);
-                                        }
-                                    }
-                                }
-                            }
-                            Err(err) => {
-                                bail!("LOOP. returns error: {}", err);
-                            }
-                        }
-                    }
-                    None => {
-                        bail!("LOOP. returns: NO DATA #2");
-                    }
-                }
-            } else {
-                bail!("LOOP.: #1 parameter must be lambda");
-            }
-        }
-        None => {
-            bail!("LOOP. returns: NO DATA #1");
-        }
-    }
-    Ok(vm)
+    stdlib_logic_loop_base(vm, 1, StackOps::FromWorkBench, "LOOP.".to_string())
 }
 
 pub fn init_stdlib(vm: &mut VM) {
