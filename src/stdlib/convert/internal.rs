@@ -24,6 +24,28 @@ pub fn stdlib_convert_to_string(vm: &mut VM) -> Result<&mut VM, Error> {
     Ok(vm)
 }
 
+pub fn stdlib_convert_to_textbuffer(vm: &mut VM) -> Result<&mut VM, Error> {
+    if vm.stack.current_stack_len() < 1 {
+        bail!("Stack is too shallow for inline convert_textbuffer");
+    }
+    match vm.stack.pull() {
+        Some(value) => {
+            match value.conv(TEXTBUFFER) {
+                Ok(nvalue) => {
+                    vm.stack.push(nvalue);
+                }
+                Err(err) => {
+                    bail!("CONVERT.TO_TEXTBUFFER returned error: {}", err);
+                }
+            }
+        }
+        None => {
+            bail!("CONVERT.TO_TEXTBUFFER returns: NO DATA #1");
+        }
+    }
+    Ok(vm)
+}
+
 pub fn stdlib_convert_to_int(vm: &mut VM) -> Result<&mut VM, Error> {
     if vm.stack.current_stack_len() < 1 {
         bail!("Stack is too shallow for inline convert_int");
@@ -114,6 +136,7 @@ pub fn stdlib_convert_to_list(vm: &mut VM) -> Result<&mut VM, Error> {
 
 pub fn init_stdlib(vm: &mut VM) {
     let _ = vm.register_inline("convert.to_string".to_string(), stdlib_convert_to_string);
+    let _ = vm.register_inline("convert.to_textbuffer".to_string(), stdlib_convert_to_textbuffer);
     let _ = vm.register_inline("convert.to_int".to_string(), stdlib_convert_to_int);
     let _ = vm.register_inline("convert.to_float".to_string(), stdlib_convert_to_float);
     let _ = vm.register_inline("convert.to_bool".to_string(), stdlib_convert_to_bool);
