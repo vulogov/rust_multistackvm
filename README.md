@@ -167,6 +167,19 @@ Here is group of functions that is doing a conditional move of data in stack and
 | ?. | Take lambda function from stack and execute it. If then top of the stack have a boolean TRUE, take the next value and move it to workbench |
 | ?move | Take lambda function from stack and execute it. If then top of the stack have a boolean TRUE, take the name of the stack and value from the stack and move the value to named stack |
 
+Here is some example
+
+```rust
+42.0              // Put some value to the stack
+{ dup > 0 } ?.    // Check if value is more than 0
+                  // Since logical operator consumes 
+                  // value from stack, we duplicate it inside lambda
+                  // If test return TRUE, word "?." will move next value
+                  // To workbench
+```
+
+The outcome of this snippet is value 42.0 stored in workbench if only this value is greater than 0
+
 Here is the group of functions to work with application-defined anonymous and named functions
 
 | Function name | Description |
