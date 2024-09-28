@@ -340,6 +340,8 @@ There are number of internal libraries for multistackvm
 
 ### Conversion library
 
+Conversion library support both stack and workbench operations. For the word operating with workbench add "." to name. For example, the word ```convert.to_int.``` will perform conversion in workbench.
+
 | Function name | Description |
 |---|---|
 | convert.to_string | Convert value from supported value types to STRING |

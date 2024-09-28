@@ -2,136 +2,90 @@ use crate::multistackvm::VM;
 use rust_dynamic::types::*;
 use easy_error::{Error, bail};
 
-pub fn stdlib_convert_to_string(vm: &mut VM) -> Result<&mut VM, Error> {
-    if vm.stack.current_stack_len() < 1 {
-        bail!("Stack is too shallow for inline convert_string");
+fn stdlib_convert_base(vm: &mut VM, op: StackOps, dconv: u16, err_prefix: String) -> Result<&mut VM, Error> {
+    match op {
+        StackOps::FromStack => {
+            if vm.stack.current_stack_len() < 1 {
+                bail!("Stack is too shallow for inline {}", err_prefix);
+            }
+        }
+        StackOps::FromWorkBench => {
+            if vm.stack.workbench.len() < 1 {
+                bail!("Workbench is too shallow for inline {}", err_prefix);
+            }
+        }
     }
-    match vm.stack.pull() {
+    let recv_value = match op {
+        StackOps::FromStack => vm.stack.pull(),
+        StackOps::FromWorkBench => vm.stack.pull_from_workbench(),
+    };
+    match recv_value {
         Some(value) => {
-            match value.conv(STRING) {
+            match value.conv(dconv) {
                 Ok(nvalue) => {
-                    vm.stack.push(nvalue);
+                    match op {
+                        StackOps::FromStack => vm.stack.push(nvalue),
+                        StackOps::FromWorkBench => vm.stack.push_to_workbench(nvalue),
+                    };
                 }
                 Err(err) => {
-                    bail!("CONVERT.TO_STRING returned error: {}", err);
+                    bail!("{} returned error: {}", &err_prefix, err);
                 }
             }
         }
         None => {
-            bail!("CONVERT.TO_STRING returns: NO DATA #1");
+            bail!("{} returns: NO DATA #1", &err_prefix);
         }
     }
     Ok(vm)
+}
+
+pub fn stdlib_convert_to_string(vm: &mut VM) -> Result<&mut VM, Error> {
+    stdlib_convert_base(vm, StackOps::FromStack, STRING, "CONVERT.TO_STRING".to_string())
+}
+
+pub fn stdlib_convert_to_string_in_workbench(vm: &mut VM) -> Result<&mut VM, Error> {
+    stdlib_convert_base(vm, StackOps::FromWorkBench, STRING, "CONVERT.TO_STRING.".to_string())
 }
 
 pub fn stdlib_convert_to_textbuffer(vm: &mut VM) -> Result<&mut VM, Error> {
-    if vm.stack.current_stack_len() < 1 {
-        bail!("Stack is too shallow for inline convert_textbuffer");
-    }
-    match vm.stack.pull() {
-        Some(value) => {
-            match value.conv(TEXTBUFFER) {
-                Ok(nvalue) => {
-                    vm.stack.push(nvalue);
-                }
-                Err(err) => {
-                    bail!("CONVERT.TO_TEXTBUFFER returned error: {}", err);
-                }
-            }
-        }
-        None => {
-            bail!("CONVERT.TO_TEXTBUFFER returns: NO DATA #1");
-        }
-    }
-    Ok(vm)
+    stdlib_convert_base(vm, StackOps::FromStack, TEXTBUFFER, "CONVERT.TO_TEXTBUFFER".to_string())
+}
+
+pub fn stdlib_convert_to_textbuffer_in_workbench(vm: &mut VM) -> Result<&mut VM, Error> {
+    stdlib_convert_base(vm, StackOps::FromWorkBench, TEXTBUFFER, "CONVERT.TO_TEXTBUFFER.".to_string())
 }
 
 pub fn stdlib_convert_to_int(vm: &mut VM) -> Result<&mut VM, Error> {
-    if vm.stack.current_stack_len() < 1 {
-        bail!("Stack is too shallow for inline convert_int");
-    }
-    match vm.stack.pull() {
-        Some(value) => {
-            match value.conv(INTEGER) {
-                Ok(nvalue) => {
-                    vm.stack.push(nvalue);
-                }
-                Err(err) => {
-                    bail!("CONVERT.TO_INT returned error: {}", err);
-                }
-            }
-        }
-        None => {
-            bail!("CONVERT.TO_INT returns: NO DATA #1");
-        }
-    }
-    Ok(vm)
+    stdlib_convert_base(vm, StackOps::FromStack, INTEGER, "CONVERT.TO_INTEGER".to_string())
+}
+
+pub fn stdlib_convert_to_int_in_workbench(vm: &mut VM) -> Result<&mut VM, Error> {
+    stdlib_convert_base(vm, StackOps::FromWorkBench, INTEGER, "CONVERT.TO_INTEGER.".to_string())
 }
 
 pub fn stdlib_convert_to_float(vm: &mut VM) -> Result<&mut VM, Error> {
-    if vm.stack.current_stack_len() < 1 {
-        bail!("Stack is too shallow for inline convert_float");
-    }
-    match vm.stack.pull() {
-        Some(value) => {
-            match value.conv(FLOAT) {
-                Ok(nvalue) => {
-                    vm.stack.push(nvalue);
-                }
-                Err(err) => {
-                    bail!("CONVERT.TO_FLOAT returned error: {}", err);
-                }
-            }
-        }
-        None => {
-            bail!("CONVERT.TO_FLOAT returns: NO DATA #1");
-        }
-    }
-    Ok(vm)
+    stdlib_convert_base(vm, StackOps::FromStack, FLOAT, "CONVERT.TO_FLOAT".to_string())
+}
+
+pub fn stdlib_convert_to_float_in_workbench(vm: &mut VM) -> Result<&mut VM, Error> {
+    stdlib_convert_base(vm, StackOps::FromWorkBench, FLOAT, "CONVERT.TO_FLOAT.".to_string())
 }
 
 pub fn stdlib_convert_to_bool(vm: &mut VM) -> Result<&mut VM, Error> {
-    if vm.stack.current_stack_len() < 1 {
-        bail!("Stack is too shallow for inline convert_bool");
-    }
-    match vm.stack.pull() {
-        Some(value) => {
-            match value.conv(BOOL) {
-                Ok(nvalue) => {
-                    vm.stack.push(nvalue);
-                }
-                Err(err) => {
-                    bail!("CONVERT.TO_BOOL returned error: {}", err);
-                }
-            }
-        }
-        None => {
-            bail!("CONVERT.TO_BOOL returns: NO DATA #1");
-        }
-    }
-    Ok(vm)
+    stdlib_convert_base(vm, StackOps::FromStack, BOOL, "CONVERT.TO_BOOL".to_string())
+}
+
+pub fn stdlib_convert_to_bool_in_workbench(vm: &mut VM) -> Result<&mut VM, Error> {
+    stdlib_convert_base(vm, StackOps::FromWorkBench, BOOL, "CONVERT.TO_BOOL.".to_string())
 }
 
 pub fn stdlib_convert_to_list(vm: &mut VM) -> Result<&mut VM, Error> {
-    if vm.stack.current_stack_len() < 1 {
-        bail!("Stack is too shallow for inline convert_list");
-    }
-    match vm.stack.pull() {
-        Some(value) => {
-            match value.conv(LIST) {
-                Ok(nvalue) => {
-                    vm.stack.push(nvalue);
-                }
-                Err(err) => {
-                    bail!("CONVERT.TO_LIST returned error: {}", err);
-                }
-            }
-        }
-        None => {
-            bail!("CONVERT.TO_LIST returns: NO DATA #1");
-        }
-    }
-    Ok(vm)
+    stdlib_convert_base(vm, StackOps::FromStack, LIST, "CONVERT.TO_LIST".to_string())
+}
+
+pub fn stdlib_convert_to_list_in_workbench(vm: &mut VM) -> Result<&mut VM, Error> {
+    stdlib_convert_base(vm, StackOps::FromWorkBench, LIST, "CONVERT.TO_LIST.".to_string())
 }
 
 pub fn init_stdlib(vm: &mut VM) {
@@ -141,4 +95,10 @@ pub fn init_stdlib(vm: &mut VM) {
     let _ = vm.register_inline("convert.to_float".to_string(), stdlib_convert_to_float);
     let _ = vm.register_inline("convert.to_bool".to_string(), stdlib_convert_to_bool);
     let _ = vm.register_inline("convert.to_list".to_string(), stdlib_convert_to_list);
+    let _ = vm.register_inline("convert.to_string.".to_string(), stdlib_convert_to_string_in_workbench);
+    let _ = vm.register_inline("convert.to_textbuffer.".to_string(), stdlib_convert_to_textbuffer_in_workbench);
+    let _ = vm.register_inline("convert.to_int.".to_string(), stdlib_convert_to_int_in_workbench);
+    let _ = vm.register_inline("convert.to_float.".to_string(), stdlib_convert_to_float_in_workbench);
+    let _ = vm.register_inline("convert.to_bool.".to_string(), stdlib_convert_to_bool_in_workbench);
+    let _ = vm.register_inline("convert.to_list.".to_string(), stdlib_convert_to_list_in_workbench);
 }
