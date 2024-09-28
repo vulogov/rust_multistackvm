@@ -26,39 +26,58 @@ fn stdlib_logic_if_base(vm: &mut VM, cond: TypeCond, op: StackOps, err_prefix: S
     }
     match vm.stack.pull() {
         Some(lambda_val) => {
-            if lambda_val.is_type(LAMBDA) {
-                let cond_v = match op {
-                    StackOps::FromStack => vm.stack.pull(),
-                    StackOps::FromWorkBench => vm.stack.pull_from_workbench(),
-                };
-                match cond_v {
-                    Some(condition_val) => {
-                        match condition_val.cast_bool() {
-                            Ok(cond_bool) => {
-                                match cond {
-                                    TypeCond::IfTrue => {
-                                        if cond_bool {
-                                            return vm.lambda_eval(lambda_val);
+            match lambda_val.type_of() {
+                LAMBDA => {
+                    let cond_v = match op {
+                        StackOps::FromStack => vm.stack.pull(),
+                        StackOps::FromWorkBench => vm.stack.pull_from_workbench(),
+                    };
+                    match cond_v {
+                        Some(condition_val) => {
+                            match condition_val.cast_bool() {
+                                Ok(cond_bool) => {
+                                    match cond {
+                                        TypeCond::IfTrue => {
+                                            if cond_bool {
+                                                match lambda_val.type_of() {
+                                                    LAMBDA => {
+                                                        return vm.lambda_eval(lambda_val);
+                                                    }
+                                                    _ => {
+                                                        vm.stack.push(lambda_val);
+                                                        return vm.i("execute".to_string());
+                                                    }
+                                                }
+                                            }
                                         }
-                                    }
-                                    TypeCond::IfFalse => {
-                                        if ! cond_bool {
-                                            return vm.lambda_eval(lambda_val);
+                                        TypeCond::IfFalse => {
+                                            if ! cond_bool {
+                                                match lambda_val.type_of() {
+                                                    LAMBDA => {
+                                                        return vm.lambda_eval(lambda_val);
+                                                    }
+                                                    _ => {
+                                                        vm.stack.push(lambda_val);
+                                                        return vm.i("execute".to_string());
+                                                    }
+                                                }
+                                            }
                                         }
                                     }
                                 }
-                            }
-                            Err(err) => {
-                                bail!("{} returns error: {}", &err_prefix, err);
+                                Err(err) => {
+                                    bail!("{} returns error: {}", &err_prefix, err);
+                                }
                             }
                         }
-                    }
-                    None => {
-                        bail!("{} returns: NO DATA #2", &err_prefix);
+                        None => {
+                            bail!("{} returns: NO DATA #2", &err_prefix);
+                        }
                     }
                 }
-            } else {
-                bail!("{}: #1 parameter must be lambda", &err_prefix);
+                _ => {
+                    bail!("{}: #1 parameter must be lambda", &err_prefix);
+                }
             }
         }
         None => {
