@@ -1,4 +1,4 @@
-use crate::multistackvm::VM;
+use crate::multistackvm::{VM, StackOps};
 use rust_dynamic::types::*;
 use easy_error::{Error, bail};
 
