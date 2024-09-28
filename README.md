@@ -182,9 +182,12 @@ Here is the group of functions covering the application logic
 | Function name | Description |
 |---|---|
 | if | This function will (or will not) execute lambda function stored in stack if stack having a boolean value TRUE |
+| if. | This function will (or will not) execute lambda function stored in stack if workbench having a boolean value TRUE |
 | if.stack | This function will (or will not) execute lambda function stored in stack if current stack matches the name |
-| ?true | This is an alias for if function |
+| ?true | This is an alias for if function. Condition is taken from stack |
+| ?true. | This is an alias for if function. Condition is taken from workbench |
 | ?false | This function will (or will not) execute lambda function stored in stack if stack having a boolean value FALSE |
+| ?false. | This function will (or will not) execute lambda function stored in stack if workbench having a boolean value FALSE |
 | loop | This function will loop over all elements of the list that is obtained from stack, push the value to the stack and evaluate lambda for each pushed value |
 | loop. | This function will loop over all elements of the list that is obtained from workbench, push the value to the stack and evaluate lambda for each pushed value |
 | while | This function will execute lambda function until detect FALSE value on the stack |
