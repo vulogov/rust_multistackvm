@@ -160,6 +160,13 @@ Group of function for comparing values on the stack. Returns a boolean value
 1 0 <     // Will return TRUE on stack
 ```
 
+Here is group of functions that is doing a conditional move of data in stack and workbench
+
+| Function name | Description |
+|---|---|
+| ?. | Take lambda function from stack and execute it. If then top of the stack have a boolean TRUE, take the next value and move it to workbench |
+| ?move | Take lambda function from stack and execute it. If then top of the stack have a boolean TRUE, take the name of the stack and value from the stack and move the value to named stack |
+
 Here is the group of functions to work with application-defined anonymous and named functions
 
 | Function name | Description |
