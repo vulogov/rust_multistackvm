@@ -27,4 +27,6 @@ pub fn init_stdlib(vm: &mut VM) {
     let _ = vm.register_alias("≠".to_string(), "!=".to_string());
     let _ = vm.register_alias("⩾".to_string(), ">=".to_string());
     let _ = vm.register_alias("⩽".to_string(), "<=".to_string());
+    let _ = vm.register_alias("stack".to_string(), "ensure_stack".to_string());
+    let _ = vm.register_alias("$".to_string(), "take".to_string());
 }
