@@ -79,4 +79,14 @@ mod tests {
         assert_eq!(val.cast_list().unwrap().len(), 1);
     }
 
+    #[test]
+    fn test_vm_apply_convert_to_from_json() {
+        let mut vm = VM::new();
+        vm.apply(Value::from(42.0).unwrap()).unwrap();
+        vm.apply(Value::call("json.from_value".to_string(), Vec::new())).unwrap();
+        vm.apply(Value::call("json.to_value".to_string(), Vec::new())).unwrap();
+        let val = vm.stack.pull().expect("No pull() happens");
+        assert_eq!(val.cast_float().unwrap(), 42.0);
+    }
+
 }
