@@ -36,8 +36,8 @@ mod tests {
         vm.apply(Value::call("json.path".to_string(), Vec::new())).unwrap();
         vm.apply(Value::call("json.to_value".to_string(), Vec::new())).unwrap();
         let val = vm.stack.pull().expect("No pull() happens");
-        println!("{:?}", &val);
-        assert_eq!(val.cast_int().unwrap(), 1);
+        let val_list = val.cast_list().unwrap();
+        assert_eq!(val_list[0].cast_int().unwrap(), 1);
     }
 
 
