@@ -1,7 +1,8 @@
+use serde_json::{json, Value as JSONValue};
 use crate::multistackvm::VM;
 use rust_dynamic::value::Value;
 use rust_dynamic::types::JSON;
-use serde_json_path::{JsonPath};
+use jsonpath_rust::{JsonPathValue, JsonPath};
 use easy_error::{Error, bail};
 
 
@@ -18,20 +19,18 @@ pub fn stdlib_json_path(vm: &mut VM) -> Result<&mut VM, Error> {
                             Some(search_path_value) => {
                                 match search_path_value.cast_string() {
                                     Ok(search_path) => {
-                                        let json_search_path = match JsonPath::parse(&search_path) {
-                                            Ok(json_search_path) => json_search_path,
+                                        let mut res: Vec<JSONValue> = Vec::new();
+                                        let json_path: JsonPath<JSONValue> = match JsonPath::try_from(search_path.as_str()) {
+                                            Ok(path) => path,
                                             Err(err) => {
-                                                bail!("JSON.PATH compiling earch path returns: {}", err);
+                                                bail!("JSON.PATH compilation of search path returns: {}", err);
                                             }
                                         };
-                                        let res = json_search_path.query(&value).all();
-                                        let res_value = match serde_json::to_value(res.clone()) {
-                                            Ok(res_value) => res_value,
-                                            Err(err) => {
-                                                bail!("JSON.PATH result conversion returns: {}", err);
-                                            }
-                                        };
-                                        vm.stack.push(Value::json(res_value));
+                                        let slice_of_data:Vec<JsonPathValue<JSONValue>> = json_path.find_slice(&value);
+                                        for s in slice_of_data {
+                                            res.push(s[0]);
+                                        }
+                                        vm.stack.push(Value::json(json!(res)));
                                     }
                                     Err(err) => {
                                         bail!("JSON.PATH casting search path returns: {}", err);

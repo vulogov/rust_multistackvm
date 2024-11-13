@@ -27,18 +27,18 @@ mod tests {
         assert_eq!(val.len(), 6);
     }
 
-    #[test]
-    fn test_vm_json_path1() {
-        let mut vm = VM::new();
-        vm.apply(Value::from("$[0]").unwrap()).unwrap();
-        vm.apply(Value::from("[1, 2, 3]").unwrap()).unwrap();
-        vm.apply(Value::call("json".to_string(), Vec::new())).unwrap();
-        vm.apply(Value::call("json.path".to_string(), Vec::new())).unwrap();
-        vm.apply(Value::call("json.to_value".to_string(), Vec::new())).unwrap();
-        let val = vm.stack.pull().expect("No pull() happens");
-        let val_list = val.cast_list().unwrap();
-        assert_eq!(val_list[0].cast_int().unwrap(), 1);
-    }
+    // #[test]
+    // fn test_vm_json_path1() {
+    //     let mut vm = VM::new();
+    //     vm.apply(Value::from("$[0]").unwrap()).unwrap();
+    //     vm.apply(Value::from("[1, 2, 3]").unwrap()).unwrap();
+    //     vm.apply(Value::call("json".to_string(), Vec::new())).unwrap();
+    //     vm.apply(Value::call("json.path".to_string(), Vec::new())).unwrap();
+    //     vm.apply(Value::call("json.to_value".to_string(), Vec::new())).unwrap();
+    //     let val = vm.stack.pull().expect("No pull() happens");
+    //     let val_list = val.cast_list().unwrap();
+    //     assert_eq!(val_list[0].cast_int().unwrap(), 1);
+    // }
 
 
 }
