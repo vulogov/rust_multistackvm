@@ -28,7 +28,13 @@ pub fn stdlib_json_path(vm: &mut VM) -> Result<&mut VM, Error> {
                                         };
                                         let slice_of_data:Vec<JsonPathValue<JSONValue>> = json_path.find_slice(&value);
                                         for s in slice_of_data {
-                                            res.push(s[0]);
+                                            match s {
+                                                JsonPathValue::Slice(value, _) => {
+                                                    res.push(value.clone());
+                                                }
+                                                _ => continue,
+                                            }
+                                            println!("{:?}", &s);
                                         }
                                         vm.stack.push(Value::json(json!(res)));
                                     }
