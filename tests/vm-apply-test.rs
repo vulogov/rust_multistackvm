@@ -128,4 +128,13 @@ mod tests {
         assert_eq!(data[1].cast_float().unwrap(), 42.0 as f64);
     }
 
+    #[test]
+    fn test_vm_apply_metrics() {
+        let mut vm = VM::new();
+        vm.apply(Value::call("metrics".to_string(), Vec::new())).unwrap();
+        let val = vm.stack.pull().expect("No pull() happens");
+        let data = val.cast_metrics().expect("No cast_metrics() happens");
+        assert_eq!(data.len(), 128);
+    }
+
 }

@@ -25,6 +25,10 @@ pub fn stdlib_list_inline(vm: &mut VM) -> Result<&mut VM, Error> {
     vm.apply(Value::list())
 }
 
+pub fn stdlib_metrics_inline(vm: &mut VM) -> Result<&mut VM, Error> {
+    vm.apply(Value::metrics())
+}
+
 pub fn stdlib_lambda_inline(vm: &mut VM) -> Result<&mut VM, Error> {
     vm.apply(Value::lambda())
 }
@@ -80,4 +84,5 @@ pub fn init_stdlib(vm: &mut VM) {
     let _ = vm.register_inline("dict".to_string(), stdlib_dict_inline);
     let _ = vm.register_inline("text".to_string(), stdlib_textbuffer_inline);
     let _ = vm.register_inline("pair".to_string(), stdlib_pair_inline);
+    let _ = vm.register_inline("metrics".to_string(), stdlib_metrics_inline);
 }
