@@ -12,3 +12,7 @@ pub mod multistackvm_call;
 pub mod multistackvm_stacks_stack;
 pub mod multistackvm_to_stack;
 pub mod multistackvm_call_internal_word;
+
+pub fn version() -> String {
+    env!("CARGO_PKG_VERSION").to_string().clone()
+}

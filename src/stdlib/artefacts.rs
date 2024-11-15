@@ -2,6 +2,24 @@ use crate::multistackvm::VM;
 use rust_dynamic::value::Value;
 use easy_error::{Error, bail};
 
+pub fn stdlib_pair_inline(vm: &mut VM) -> Result<&mut VM, Error> {
+    if vm.stack.current_stack_len() < 1 {
+        bail!("Stack is too shallow for inline pair()");
+    }
+    let x = match vm.stack.pull() {
+        Some(x) => x,
+        None => {
+            bail!("PAIR returns NO DATA #1");
+        }
+    };
+    let y = match vm.stack.pull() {
+        Some(y) => y,
+        None => {
+            bail!("PAIR returns NO DATA #2");
+        }
+    };
+    vm.apply(Value::pair(x, y))
+}
 
 pub fn stdlib_list_inline(vm: &mut VM) -> Result<&mut VM, Error> {
     vm.apply(Value::list())
@@ -61,4 +79,5 @@ pub fn init_stdlib(vm: &mut VM) {
     let _ = vm.register_inline("nodata".to_string(), stdlib_nodata_inline);
     let _ = vm.register_inline("dict".to_string(), stdlib_dict_inline);
     let _ = vm.register_inline("text".to_string(), stdlib_textbuffer_inline);
+    let _ = vm.register_inline("pair".to_string(), stdlib_pair_inline);
 }

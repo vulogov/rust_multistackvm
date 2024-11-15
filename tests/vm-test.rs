@@ -37,4 +37,9 @@ mod tests {
         assert_eq!(vm.peek_stacks().unwrap(), "TEST");
     }
 
+    #[test]
+    fn test_vm_version() {
+        assert_eq!(rust_multistackvm::version(), env!("CARGO_PKG_VERSION").to_string());
+    }
+
 }

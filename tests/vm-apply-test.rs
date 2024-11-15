@@ -117,4 +117,15 @@ mod tests {
         assert_eq!(val.cast_float().unwrap(), 42.0 as f64);
     }
 
+    #[test]
+    fn test_vm_apply_pair() {
+        let mut vm = VM::new();
+        vm.apply(Value::from(42.0).unwrap()).unwrap();
+        vm.apply(Value::from(41.0).unwrap()).unwrap();
+        vm.apply(Value::call("pair".to_string(), Vec::new())).unwrap();
+        let val = vm.stack.pull().expect("No pull() happens");
+        let data = val.cast_pair().expect("No cast_pair() happens");
+        assert_eq!(data[1].cast_float().unwrap(), 42.0 as f64);
+    }
+
 }
