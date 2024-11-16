@@ -34,3 +34,22 @@ pub fn list_to_floats(value: Value) -> Result<Vec<f64>, Error> {
         }
     }
 }
+
+pub fn metrics_to_floats(value: Value) -> Result<Vec<f64>, Error> {
+    if value.type_of() ==  METRICS {
+        let mut res: Vec<f64> = Vec::new();
+        match value.cast_metrics() {
+            Ok(metrics) => {
+                for m in metrics {
+                    res.push(m.data);
+                }
+            }
+            Err(err) => {
+                bail!("Casting metrics failed: {}", err);
+            }
+        }
+        return Ok(res);
+    } else {
+        bail!("Value is not of METRICS type");
+    }
+}

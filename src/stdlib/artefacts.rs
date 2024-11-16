@@ -1,5 +1,6 @@
 use crate::multistackvm::VM;
 use rust_dynamic::value::Value;
+use num::complex::Complex;
 use easy_error::{Error, bail};
 
 pub fn stdlib_pair_inline(vm: &mut VM) -> Result<&mut VM, Error> {
@@ -19,6 +20,38 @@ pub fn stdlib_pair_inline(vm: &mut VM) -> Result<&mut VM, Error> {
         }
     };
     vm.apply(Value::pair(x, y))
+}
+
+pub fn stdlib_complex_inline(vm: &mut VM) -> Result<&mut VM, Error> {
+    if vm.stack.current_stack_len() < 1 {
+        bail!("Stack is too shallow for inline pair()");
+    }
+    let re = match vm.stack.pull() {
+        Some(x) => x,
+        None => {
+            bail!("COMPLEX returns NO DATA #1");
+        }
+    };
+    let im = match vm.stack.pull() {
+        Some(y) => y,
+        None => {
+            bail!("COMPLEX returns NO DATA #2");
+        }
+    };
+    let re_float = match re.cast_float() {
+        Ok(re_float) => re_float,
+        Err(err) => {
+            bail!("COMPLEX cast error #1: {}", err);
+        }
+    };
+    let im_float = match im.cast_float() {
+        Ok(re_float) => re_float,
+        Err(err) => {
+            bail!("COMPLEX cast error #2: {}", err);
+        }
+    };
+    let res: Complex<f64> = Complex::new(re_float, im_float);
+    vm.apply(Value::from_complex_float(res))
 }
 
 pub fn stdlib_list_inline(vm: &mut VM) -> Result<&mut VM, Error> {
@@ -84,5 +117,6 @@ pub fn init_stdlib(vm: &mut VM) {
     let _ = vm.register_inline("dict".to_string(), stdlib_dict_inline);
     let _ = vm.register_inline("text".to_string(), stdlib_textbuffer_inline);
     let _ = vm.register_inline("pair".to_string(), stdlib_pair_inline);
+    let _ = vm.register_inline("complex".to_string(), stdlib_complex_inline);
     let _ = vm.register_inline("metrics".to_string(), stdlib_metrics_inline);
 }
