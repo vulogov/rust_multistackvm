@@ -3,8 +3,18 @@ use rust_dynamic::types::*;
 use easy_error::{Error, bail};
 
 pub fn stdlib_execute_base_inline(vm: &mut VM, op: StackOps, err_prefix: String) -> Result<&mut VM, Error> {
-    if vm.stack.current_stack_len() < 1 {
-        bail!("Stack is too shallow for inline {}()", &err_prefix);
+
+    match op {
+        StackOps::FromStack => {
+            if vm.stack.current_stack_len() < 2 {
+                bail!("Stack is too shallow for inline {}()", &err_prefix);
+            }
+        }
+        StackOps::FromWorkBench => {
+            if vm.stack.workbench.len() < 1 {
+                bail!("Stack is too shallow for inline {}()", &err_prefix);
+            }
+        }
     }
     let recv_value = match op {
         StackOps::FromStack => vm.stack.pull(),

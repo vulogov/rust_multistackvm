@@ -16,7 +16,7 @@ fn stdlib_stack_conditional_move_base(vm: &mut VM, op: MoveOps, err_prefix: Stri
             }
         }
         MoveOps::ToWorkbench => {
-            if vm.stack.current_stack_len() < 1 {
+            if vm.stack.workbench.len() < 1 {
                 bail!("Stack is too shallow for inline {}()", &err_prefix);
             }
         }
