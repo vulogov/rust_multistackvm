@@ -6,7 +6,7 @@ pub fn stdlib_execute_base_inline(vm: &mut VM, op: StackOps, err_prefix: String)
 
     match op {
         StackOps::FromStack => {
-            if vm.stack.current_stack_len() < 2 {
+            if vm.stack.current_stack_len() < 1 {
                 bail!("Stack is too shallow for inline {}()", &err_prefix);
             }
         }

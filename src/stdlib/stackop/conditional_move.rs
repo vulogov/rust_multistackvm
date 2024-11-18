@@ -9,17 +9,9 @@ pub enum MoveOps {
 }
 
 fn stdlib_stack_conditional_move_base(vm: &mut VM, op: MoveOps, err_prefix: String) -> Result<&mut VM, Error> {
-    match op {
-        MoveOps::ToStack => {
-            if vm.stack.current_stack_len() < 2 {
-                bail!("Stack is too shallow for inline {}()", &err_prefix);
-            }
-        }
-        MoveOps::ToWorkbench => {
-            if vm.stack.workbench.len() < 1 {
-                bail!("Stack is too shallow for inline {}()", &err_prefix);
-            }
-        }
+
+    if vm.stack.current_stack_len() < 2 {
+        bail!("Stack is too shallow for inline {}()", &err_prefix);
     }
     match vm.stack.pull() {
         Some(lambda_val) => {
@@ -64,7 +56,7 @@ fn stdlib_stack_conditional_move_base(vm: &mut VM, op: MoveOps, err_prefix: Stri
                                         }
                                     }
                                     None => {
-                                        bail!("{} returns: NO DATA #2", &err_prefix);
+                                        bail!("{} returns: NO DATA for stack name", &err_prefix);
                                     }
                                 }
                             }
