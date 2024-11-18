@@ -2,9 +2,6 @@ use crate::multistackvm::VM;
 use rust_dynamic::types::LAMBDA;
 use easy_error::{Error, bail};
 
-
-
-
 pub fn stdlib_logic_for(vm: &mut VM) -> Result<&mut VM, Error> {
     if vm.stack.current_stack_len() < 1 {
         bail!("Stack is too shallow for inline for");
