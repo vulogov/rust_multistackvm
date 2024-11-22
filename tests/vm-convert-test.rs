@@ -101,7 +101,7 @@ mod tests {
 
         vm.apply(m1).unwrap();
 
-        // Call the len function
+        // Call the matrix function
         vm.apply(Value::call("matrix".to_string(), Vec::new())).unwrap();
         let val = vm.stack.pull().expect("No pull() happens");
         let val_data = val.cast_matrix().unwrap();
