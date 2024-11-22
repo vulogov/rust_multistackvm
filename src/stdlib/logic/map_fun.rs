@@ -16,9 +16,10 @@ fn stdlib_logic_map_base(vm: &mut VM, depth: usize, op: StackOps, err_prefix: St
                 };
                 match cond {
                     Some(condition_val) => {
-                        match condition_val.conv(LIST) {
-                            Ok(list_conditional_val) => {
-                                match list_conditional_val.cast_list() {
+                        let cv_name = &condition_val.type_name();
+                        match condition_val.type_of() {
+                            LIST => {
+                                match condition_val.cast_list() {
                                     Ok(cond) => {
                                         let mut res = Value::list();
                                         for v in cond {
@@ -49,8 +50,44 @@ fn stdlib_logic_map_base(vm: &mut VM, depth: usize, op: StackOps, err_prefix: St
                                     }
                                 }
                             }
-                            Err(err) => {
-                                bail!("{}: error turning conditional to LIST: {}", &err_prefix, err);
+                            MATRIX => {
+                                match condition_val.cast_matrix() {
+                                    Ok(cond) => {
+                                        let mut res: Vec<Vec<Value>> = Vec::new();
+                                        for r in cond {
+                                            let mut row: Vec<Value> = Vec::new();
+                                            for v in r {
+                                                vm.stack.push(v);
+                                                match vm.lambda_eval(lambda_val.clone()) {
+                                                    Ok(_) => {
+                                                        match vm.stack.pull() {
+                                                            Some(outcome) => {
+                                                                 row.push(outcome);
+                                                            }
+                                                            None => {
+                                                                bail!("{} can not obtain MAP outcome from stack", &err_prefix);
+                                                            }
+                                                        }
+                                                    }
+                                                    Err(err) => {
+                                                        bail!("{}: lambda execution returns error: {}", &err_prefix, err);
+                                                    }
+                                                }
+                                            }
+                                            res.push(row);
+                                        }
+                                        match op {
+                                            StackOps::FromStack => vm.stack.push(Value::from_matrix(res)),
+                                            StackOps::FromWorkBench => vm.stack.push_to_workbench(Value::from_matrix(res)),
+                                        };
+                                    }
+                                    Err(err) => {
+                                        bail!("{} returns error: {}", &err_prefix, err);
+                                    }
+                                }
+                            }
+                            _ => {
+                                bail!("{}: can not run map over {}", &err_prefix, cv_name);
                             }
                         }
                     }

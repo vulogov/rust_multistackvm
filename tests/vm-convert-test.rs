@@ -89,4 +89,23 @@ mod tests {
         assert_eq!(val.cast_float().unwrap(), 42.0);
     }
 
+    #[test]
+    fn test_vm_apply_convert_to_matrix() {
+        let mut vm = VM::new();
+        // Let's create matrix for test
+        let mut m1 = Value::list();
+        let mut v1 = Value::list();
+        v1 = v1.push(Value::from(42.0).unwrap());
+        v1 = v1.push(Value::from(41.0).unwrap());
+        m1 = m1.push(v1);
+
+        vm.apply(m1).unwrap();
+
+        // Call the len function
+        vm.apply(Value::call("matrix".to_string(), Vec::new())).unwrap();
+        let val = vm.stack.pull().expect("No pull() happens");
+        let val_data = val.cast_matrix().unwrap();
+        assert_eq!(val_data[0][0].cast_float().unwrap(), 42.0 as f64);
+    }
+
 }
