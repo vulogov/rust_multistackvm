@@ -88,6 +88,7 @@ pub fn stdlib_value_has_key(vm: &mut VM) -> Result<&mut VM, Error> {
                 Some(value) => {
                     match value.has_key(key_name) {
                         Ok(d_val) => {
+                            vm.stack.push(value);
                             vm.stack.push(d_val);
                         }
                         Err(err) => {
