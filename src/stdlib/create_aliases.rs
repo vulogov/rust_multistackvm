@@ -8,10 +8,14 @@ pub fn init_stdlib(vm: &mut VM) {
     let _ = vm.register_alias("?".to_string(), "if".to_string());
     let _ = vm.register_alias("if.".to_string(), "if.in_workbench".to_string());
     let _ = vm.register_alias("?true".to_string(), "if".to_string());
+    let _ = vm.register_alias("?true*".to_string(), "ifthenelse".to_string());
     let _ = vm.register_alias("?stack".to_string(), "if.stack".to_string());
     let _ = vm.register_alias("?true.".to_string(), "if.in_workbench".to_string());
+    let _ = vm.register_alias("?true*.".to_string(), "ifthenelse.".to_string());
     let _ = vm.register_alias("?false".to_string(), "if.false".to_string());
+    let _ = vm.register_alias("?false*".to_string(), "notifthenelse".to_string());
     let _ = vm.register_alias("?false.".to_string(), "if.false.in_workbench".to_string());
+    let _ = vm.register_alias("?false*.".to_string(), "notifthenelse.".to_string());
     let _ = vm.register_alias("dup".to_string(), "dup_one".to_string());
     let _ = vm.register_alias("swap".to_string(), "swap_one".to_string());
     let _ = vm.register_alias(",".to_string(), "concat_with_space".to_string());

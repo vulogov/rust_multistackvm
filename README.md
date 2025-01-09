@@ -172,7 +172,7 @@ Here is some example
 ```rust
 42.0              // Put some value to the stack
 { dup > 0 } ?.    // Check if value is more than 0
-                  // Since logical operator consumes 
+                  // Since logical operator consumes
                   // value from stack, we duplicate it inside lambda
                   // If test return TRUE, word "?." will move next value
                   // To workbench
@@ -205,7 +205,9 @@ Here is the group of functions covering the application logic
 | if. | This function will (or will not) execute lambda function stored in stack if workbench having a boolean value TRUE |
 | if.stack | This function will (or will not) execute lambda function stored in stack if current stack matches the name |
 | ?true | This is an alias for if function. Condition is taken from stack |
+| ?true* | This is an alias for ifthenelse function. Condition is taken from stack and function executes then or else lambdas taken from stack |
 | ?true. | This is an alias for if function. Condition is taken from workbench |
+| ?true*. | This is an alias for ifthenelse. function. Condition is taken from workbench, then and else lambdas from the stack |
 | ?false | This function will (or will not) execute lambda function stored in stack if stack having a boolean value FALSE |
 | ?false. | This function will (or will not) execute lambda function stored in stack if workbench having a boolean value FALSE |
 | loop | This function will loop over all elements of the list that is obtained from stack, push the value to the stack and evaluate lambda for each pushed value |
