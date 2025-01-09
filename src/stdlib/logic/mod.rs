@@ -1,6 +1,7 @@
 use crate::multistackvm::VM;
 
 pub mod if_fun;
+pub mod ifthenelse_fun;
 pub mod loop_fun;
 pub mod map_fun;
 pub mod do_fun;
@@ -12,6 +13,7 @@ pub mod logic_compare_fun;
 
 pub fn init_stdlib(vm: &mut VM) {
     if_fun::init_stdlib(vm);
+    ifthenelse_fun::init_stdlib(vm);
     loop_fun::init_stdlib(vm);
     map_fun::init_stdlib(vm);
     do_fun::init_stdlib(vm);
