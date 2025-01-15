@@ -23,7 +23,7 @@ pub fn stdlib_execute_base_inline(vm: &mut VM, op: StackOps, err_prefix: String)
     match recv_value {
         Some(mut ptr_value) => {
             match ptr_value.type_of() {
-                PTR | STRING => {
+                PTR | STRING | CALL => {
                     match &mut ptr_value.data {
                         Val::String(ref mut fun_name) => {
                             return vm.call(fun_name.clone());
