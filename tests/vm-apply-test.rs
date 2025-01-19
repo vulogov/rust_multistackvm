@@ -137,4 +137,14 @@ mod tests {
         assert_eq!(data.len(), 128);
     }
 
+    #[test]
+    fn test_vm_apply_conditional_try() {
+        let mut vm = VM::new();
+        vm.apply(Value::call("?try".to_string(), Vec::new())).unwrap();
+        let val = vm.stack.pull().expect("No pull() happens");
+        let data = val.cast_dict().expect("No cast_dict() happens");
+        let data2 = data.get("type").unwrap();
+        assert_eq!(data2.cast_string().unwrap(), "try");
+    }
+
 }

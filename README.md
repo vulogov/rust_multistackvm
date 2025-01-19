@@ -305,6 +305,7 @@ And here is functions that is working with dictionaries
 | Function name | Description |
 |---|---|
 | dict | Create an empry dictionary and store it on stack |
+| conditional | Create an empry conditional value and store it on stack |
 | set | Set the value in dictionary |
 | get | Get value from dictionary |
 
