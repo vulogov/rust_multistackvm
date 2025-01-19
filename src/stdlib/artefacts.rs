@@ -107,6 +107,10 @@ pub fn stdlib_textbuffer_inline(vm: &mut VM) -> Result<&mut VM, Error> {
     vm.apply(Value::text_buffer("".to_string()))
 }
 
+pub fn stdlib_conditional_inline(vm: &mut VM) -> Result<&mut VM, Error> {
+    vm.apply(Value::conditional())
+}
+
 pub fn init_stdlib(vm: &mut VM) {
     let _ = vm.register_inline("list".to_string(), stdlib_list_inline);
     let _ = vm.register_inline("lambda".to_string(), stdlib_lambda_inline);
@@ -115,6 +119,7 @@ pub fn init_stdlib(vm: &mut VM) {
     let _ = vm.register_inline("false".to_string(), stdlib_bool_false_inline);
     let _ = vm.register_inline("nodata".to_string(), stdlib_nodata_inline);
     let _ = vm.register_inline("dict".to_string(), stdlib_dict_inline);
+    let _ = vm.register_inline("conditional".to_string(), stdlib_conditional_inline);
     let _ = vm.register_inline("text".to_string(), stdlib_textbuffer_inline);
     let _ = vm.register_inline("pair".to_string(), stdlib_pair_inline);
     let _ = vm.register_inline("complex".to_string(), stdlib_complex_inline);

@@ -1,4 +1,5 @@
 use crate::multistackvm::{VM, StackOps};
+use crate::stdlib;
 use rust_dynamic::types::*;
 use easy_error::{Error, bail};
 
@@ -79,6 +80,9 @@ pub fn stdlib_execute_base_inline(vm: &mut VM, op: StackOps, err_prefix: String)
                             bail!("{} returned error during DICT key conversion: {}", &err_prefix, err);
                         }
                     }
+                }
+                CONDITIONAL => {
+                    return stdlib::execute_types::execute_conditionals::execute_conditionals(vm, ptr_value, op.clone(), err_prefix.clone());
                 }
                 LAMBDA => {
                     return vm.lambda_eval(ptr_value);
