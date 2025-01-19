@@ -96,6 +96,13 @@ pub fn stdlib_convert_to_matrix_in_stack(vm: &mut VM) -> Result<&mut VM, Error> 
     stdlib_convert_base(vm, StackOps::FromStack, MATRIX, "CONVERT.TO_MATRIX".to_string())
 }
 
+pub fn stdlib_convert_to_map_in_workbench(vm: &mut VM) -> Result<&mut VM, Error> {
+    stdlib_convert_base(vm, StackOps::FromWorkBench, MATRIX, "CONVERT.TO_DICT.".to_string())
+}
+pub fn stdlib_convert_to_map_in_stack(vm: &mut VM) -> Result<&mut VM, Error> {
+    stdlib_convert_base(vm, StackOps::FromStack, MATRIX, "CONVERT.TO_DICT".to_string())
+}
+
 pub fn init_stdlib(vm: &mut VM) {
     let _ = vm.register_inline("convert.to_string".to_string(), stdlib_convert_to_string);
     let _ = vm.register_inline("convert.to_textbuffer".to_string(), stdlib_convert_to_textbuffer);
@@ -111,4 +118,6 @@ pub fn init_stdlib(vm: &mut VM) {
     let _ = vm.register_inline("convert.to_list.".to_string(), stdlib_convert_to_list_in_workbench);
     let _ = vm.register_inline("convert.to_matrix".to_string(), stdlib_convert_to_matrix_in_stack);
     let _ = vm.register_inline("convert.to_matrix.".to_string(), stdlib_convert_to_matrix_in_workbench);
+    let _ = vm.register_inline("convert.to_dict".to_string(), stdlib_convert_to_map_in_stack);
+    let _ = vm.register_inline("convert.to_dict.".to_string(), stdlib_convert_to_map_in_workbench);
 }
