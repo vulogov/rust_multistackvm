@@ -2,6 +2,7 @@ use crate::multistackvm::{VM, StackOps};
 use rust_dynamic::types::*;
 use easy_error::{Error, bail};
 
+#[time_graph::instrument]
 fn stdlib_logic_loop_base(vm: &mut VM, depth: usize, op: StackOps, err_prefix: String) -> Result<&mut VM, Error> {
     if vm.stack.current_stack_len() < depth {
         bail!("Stack is too shallow for inline {}", &err_prefix);

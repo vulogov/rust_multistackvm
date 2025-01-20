@@ -4,6 +4,7 @@ use crate::multistackvm::*;
 use easy_error::{bail, Error};
 
 impl VM {
+    #[time_graph::instrument]
     pub fn apply(&mut self, value: Value) -> Result<&mut VM, Error> {
         match value.dt {
             CALL => {

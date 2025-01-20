@@ -8,6 +8,7 @@ pub enum TypeCond {
     IfFalse,
 }
 
+#[time_graph::instrument]
 fn stdlib_logic_if_base(vm: &mut VM, cond: TypeCond, op: StackOps, err_prefix: String) -> Result<&mut VM, Error> {
     match op {
         StackOps::FromStack => {

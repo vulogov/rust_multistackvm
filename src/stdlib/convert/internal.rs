@@ -2,6 +2,7 @@ use crate::multistackvm::{VM, StackOps};
 use rust_dynamic::types::*;
 use easy_error::{Error, bail};
 
+#[time_graph::instrument]
 fn stdlib_convert_base(vm: &mut VM, op: StackOps, dconv: u16, err_prefix: String) -> Result<&mut VM, Error> {
     match op {
         StackOps::FromStack => {

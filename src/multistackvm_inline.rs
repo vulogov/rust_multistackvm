@@ -37,7 +37,7 @@ impl VM {
         }
         bail!("VM Inline {} not registered", &name);
     }
-
+    #[time_graph::instrument]
     pub fn i_direct(&mut self, name: String) -> Result<&mut VM, Error> {
         if self.is_inline(name.clone()) {
             match self.get_inline(name.clone()) {
@@ -66,7 +66,7 @@ impl VM {
             }
         }
     }
-
+    #[time_graph::instrument]
     pub fn i(&mut self, name: String) -> Result<&mut VM, Error> {
         if self.is_alias(name.clone()) {
             match self.get_alias(name.clone()) {

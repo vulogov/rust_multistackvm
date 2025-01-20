@@ -1,14 +1,14 @@
 use crate::multistackvm::VM;
 use easy_error::{Error, bail};
 
-
+#[time_graph::instrument]
 pub fn stdlib_clear_stacks(vm: &mut VM) -> Result<&mut VM, Error> {
     if vm.clear_stacks() {
         return Ok(vm);
     }
     bail!("Error in clear_stacks()")
 }
-
+#[time_graph::instrument]
 pub fn stdlib_drop_stacks(vm: &mut VM) -> Result<&mut VM, Error> {
     let _ = vm.pop_stacks();
     Ok(vm)

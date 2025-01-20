@@ -12,6 +12,7 @@ pub enum Ops {
     Leq,
 }
 
+#[time_graph::instrument]
 fn stdlib_logic_compare(op: Ops, value1: Value, value2: Value) -> Result<bool, Error> {
     match value1.type_of() {
         INTEGER | FLOAT | CINTEGER | CFLOAT | TIME => {

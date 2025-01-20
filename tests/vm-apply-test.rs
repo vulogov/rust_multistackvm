@@ -138,13 +138,30 @@ mod tests {
     }
 
     #[test]
-    fn test_vm_apply_conditional_try() {
+    fn test_vm_apply_conditional_create() {
         let mut vm = VM::new();
-        vm.apply(Value::call("?try".to_string(), Vec::new())).unwrap();
+        vm.apply(Value::call("?".to_string(), Vec::new())).unwrap();
         let val = vm.stack.pull().expect("No pull() happens");
         let data = val.cast_dict().expect("No cast_dict() happens");
         let data2 = data.get("type").unwrap();
-        assert_eq!(data2.cast_string().unwrap(), "try");
+        assert_eq!(data2.cast_string().unwrap(), "through");
+    }
+
+    #[test]
+    fn test_vm_apply_conditional_through() {
+        let mut vm = VM::new();
+        vm.apply(Value::call("?".to_string(), Vec::new())).unwrap();
+        vm.apply(Value::from("run").unwrap()).unwrap();
+        // Then let's create lambda
+        vm.apply(Value::call("lambda".to_string(), Vec::new())).unwrap();
+        vm.apply(Value::call(":".to_string(), Vec::new())).unwrap();
+        vm.apply(Value::from(42.0).unwrap()).unwrap();
+        vm.apply(Value::call(";".to_string(), Vec::new())).unwrap();
+        // Call registering and execution
+        vm.apply(Value::call("set".to_string(), Vec::new())).unwrap();
+        vm.apply(Value::call("!".to_string(), Vec::new())).unwrap();
+        let val = vm.stack.pull().expect("No pull() happens");
+        assert_eq!(val.cast_float().unwrap(), 42.0 as f64);
     }
 
 }

@@ -3,8 +3,8 @@ use crate::stdlib;
 use rust_dynamic::types::*;
 use easy_error::{Error, bail};
 
+#[time_graph::instrument]
 pub fn stdlib_execute_base_inline(vm: &mut VM, op: StackOps, err_prefix: String) -> Result<&mut VM, Error> {
-
     match op {
         StackOps::FromStack => {
             if vm.stack.current_stack_len() < 1 {
@@ -99,13 +99,14 @@ pub fn stdlib_execute_base_inline(vm: &mut VM, op: StackOps, err_prefix: String)
     Ok(vm)
 }
 
+#[time_graph::instrument]
 pub fn stdlib_execute_inline(vm: &mut VM) -> Result<&mut VM, Error> {
     if vm.stack.current_stack_len() < 1 {
         bail!("Stack is too shallow for inline execute()");
     }
     stdlib_execute_base_inline(vm, StackOps::FromStack, "EXECUTE".to_string())
 }
-
+#[time_graph::instrument]
 pub fn stdlib_execute_from_workbench_inline(vm: &mut VM) -> Result<&mut VM, Error> {
     if vm.stack.current_stack_len() < 1 {
         bail!("Stack is too shallow for inline execute()");

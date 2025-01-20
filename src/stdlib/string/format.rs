@@ -5,6 +5,7 @@ use rust_dynamic::types::*;
 use leon::{Template};
 use easy_error::{Error, bail};
 
+#[time_graph::instrument]
 pub fn stdlib_string_format(vm: &mut VM) -> Result<&mut VM, Error> {
     if vm.stack.current_stack_len() < 1 {
         bail!("Stack is too shallow for inline format");
@@ -67,6 +68,7 @@ pub fn stdlib_string_format(vm: &mut VM) -> Result<&mut VM, Error> {
     Ok(vm)
 }
 
+#[time_graph::instrument]
 pub fn stdlib_string_format_in_workbench(vm: &mut VM) -> Result<&mut VM, Error> {
     if vm.stack.workbench.len() < 1 {
         bail!("Stack is too shallow for inline format.");

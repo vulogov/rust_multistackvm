@@ -37,7 +37,7 @@ impl VM {
         }
         bail!("VM Command {} not registered", &name);
     }
-
+    #[time_graph::instrument]
     pub fn c(&mut self, name: String) -> Result<&mut VM, Error> {
         if self.is_command(name.clone()) {
             match self.get_command(name.clone()) {
