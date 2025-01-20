@@ -9,7 +9,7 @@ use lazy_static::lazy_static;
 pub type ConditionalFn   = fn(&mut VM, conf: Value) -> Result<&mut VM, Error>;
 
 lazy_static! {
-    static ref CF: Mutex<BTreeMap<String, ConditionalFn>> = {
+    pub static ref CF: Mutex<BTreeMap<String, ConditionalFn>> = {
         let e: Mutex<BTreeMap<String, ConditionalFn>> = Mutex::new(BTreeMap::new());
         e
     };
