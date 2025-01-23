@@ -15,6 +15,18 @@ lazy_static! {
     };
 }
 
+pub fn get_cf_function(fname: String) -> Option<ConditionalFn> {
+    log::debug!("Trying to resolve conditional function: {}", &fname);
+    let mut cf = CF.lock().unwrap();
+    if ! &cf.contains_key(&fname) {
+        drop(cf);
+        return None;
+    }
+    let binding = &cf.get_mut(&fname);
+    let c_fun = binding.as_ref().unwrap();
+    return Some(**c_fun);
+}
+
 pub mod conditional_through;
 
 pub mod execute_conditionals;

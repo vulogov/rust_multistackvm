@@ -1,6 +1,6 @@
 use crate::multistackvm::{VM, StackOps};
 use rust_dynamic::value::Value;
-use crate::stdlib::execute_types::CF;
+use crate::stdlib::execute_types::get_cf_function;
 use easy_error::{Error, bail};
 
 
@@ -10,12 +10,13 @@ pub fn execute_conditionals(vm: &mut VM, value: Value, _op: StackOps, _err_prefi
         Ok(ctype_val) => ctype_val,
         Err(err) => bail!("EXECUTE:CONDITIONAL can not detect conditional type: {}", err),
     };
+    log::debug!("Executing conditional for {}", &ctype_val);
     let ctype = match ctype_val.cast_string() {
         Ok(ctype) => ctype,
         Err(err) => bail!("EXECUTE:CONDITIONAL casting error: {}", err),
     };
-    let cf = CF.lock().unwrap();
-    match cf.get(&ctype) {
+
+    match get_cf_function(ctype.clone()) {
         Some(conditional_handler) => {
             return conditional_handler(vm, value);
         }
