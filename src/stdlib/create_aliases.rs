@@ -18,7 +18,8 @@ pub fn init_stdlib(vm: &mut VM) {
     let _ = vm.register_alias("?false*.".to_string(), "notifthenelse.".to_string());
     let _ = vm.register_alias("dup".to_string(), "dup_one".to_string());
     let _ = vm.register_alias("swap".to_string(), "swap_one".to_string());
-    let _ = vm.register_alias(",".to_string(), "concat_with_space".to_string());
+    let _ = vm.register_alias("sp".to_string(), "concat_with_space".to_string());
+    let _ = vm.register_alias(",".to_string(), "set".to_string());
     let _ = vm.register_alias("<-".to_string(), "stacks_left".to_string());
     let _ = vm.register_alias("←".to_string(), "stacks_left".to_string());
     let _ = vm.register_alias("->".to_string(), "stacks_right".to_string());

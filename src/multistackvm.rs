@@ -24,6 +24,7 @@ pub struct VM {
     pub inline_fun:     collections::HashMap<String, VMInlineFn>,
     pub command_fun:    collections::HashMap<String, VMInlineFn>,
     pub lambdas:        collections::HashMap<String, Value>,
+    pub vars:           collections::HashMap<String, collections::HashMap<String, Value>>,
     pub name_mapping:   collections::HashMap<String, String>,
     pub stacks_stack:   collections::VecDeque<String>,
 }
@@ -41,6 +42,7 @@ impl VM {
             command_fun:    collections::HashMap::new(),
             name_mapping:   collections::HashMap::new(),
             lambdas:        collections::HashMap::new(),
+            vars:           collections::HashMap::new(),
             stacks_stack:   ss,
         }
     }

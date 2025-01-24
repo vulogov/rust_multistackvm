@@ -25,12 +25,12 @@ pub fn stdlib_function_resolve(vm: &mut VM) -> Result<&mut VM, Error> {
                     }
                 }
                 Err(err) => {
-                    bail!("PTR returns error: {}", err);
+                    bail!("RESOLVE returns error: {}", err);
                 }
             }
         }
         None => {
-            bail!("PTR returns: NO DATA");
+            bail!("RESOLVE returns: NO DATA");
         }
     }
 }
