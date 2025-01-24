@@ -11,7 +11,7 @@ pub fn stdlib_var_register(vm: &mut VM) -> Result<&mut VM, Error> {
                 Some(name_value) => {
                     match name_value.cast_string() {
                         Ok(name) => {
-                            return vm.register_var(name, lambda_value);
+                            return vm.register_var(name, var_value);
                         }
                         Err(err) => {
                             bail!("VAR expecting var name to be string: {}", err);

@@ -1,5 +1,4 @@
 use crate::multistackvm::VM;
-use rust_dynamic::value::Value;
 use easy_error::{Error, bail};
 
 pub fn stdlib_function_resolve_var(vm: &mut VM) -> Result<&mut VM, Error> {
@@ -10,14 +9,14 @@ pub fn stdlib_function_resolve_var(vm: &mut VM) -> Result<&mut VM, Error> {
         Some(name_value) => {
             match name_value.cast_string() {
                 Ok(name) => {
-                    match vm.get_var(&name) {
+                    match vm.get_var(name) {
                         Ok(value) => {
                             vm.stack.push(value);
                         }
                         Err(err) => {
-                            bail!("VAR? returned: {}", err)
+                            bail!("VAR? returned: {}", err);
                         }
-                    }
+                    };
                 }
                 Err(err) => {
                     bail!("VAR? returns error: {}", err);
@@ -28,6 +27,7 @@ pub fn stdlib_function_resolve_var(vm: &mut VM) -> Result<&mut VM, Error> {
             bail!("VAR? returns: NO DATA");
         }
     }
+    Ok(vm)
 }
 
 
