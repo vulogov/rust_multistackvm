@@ -306,7 +306,7 @@ And here is functions that is working with dictionaries
 |---|---|
 | dict | Create an empry dictionary and store it on stack |
 | conditional | Create an empry conditional value and store it on stack |
-| set | Set the value in dictionary |
+| set | Set the value in dictionary. Alias for set is "," |
 | get | Get value from dictionary |
 
 ```rust
@@ -383,6 +383,15 @@ Conversion library support both stack and workbench operations. For the word ope
 | time.now | Return current timestamp to stack |
 | time.timestamp | Create timestamp from INT that taken from stack |
 
+### List library
+
+| Function name | Description |
+|---|---|
+| car | Return first element of the list |
+| cdr | Return reminder of the list |
+| head | Return N elements from head of the list |
+| tail | Return N elements from tail of the list |
+| at | Return N-th elements from the list |
 
 ## VM control functions
 
@@ -414,3 +423,4 @@ First, I am appying a Value::float to VM, that is pushed this value to the stack
 |---|---|---|---|
 | . | TS | return | Pull value from current stack and push it to Workbench |
 | ! | VM | execute | Execute inline function referred by PTR |
+| , | DICT | set | Set value to dictionary |
