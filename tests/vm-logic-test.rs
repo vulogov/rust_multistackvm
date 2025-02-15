@@ -73,6 +73,26 @@ mod tests {
     }
 
     #[test]
+    fn test_vm_apply_cmp_eq_str1() {
+        let mut vm = VM::new();
+        vm.apply(Value::from("HELLO").unwrap()).unwrap();
+        vm.apply(Value::from("HELLO").unwrap()).unwrap();
+        vm.apply(Value::call("==".to_string(), Vec::new())).unwrap();
+        let val = vm.stack.pull().expect("No pull() happens");
+        assert_eq!(val.cast_bool().unwrap(), true);
+    }
+
+    #[test]
+    fn test_vm_apply_cmp_eq_str2() {
+        let mut vm = VM::new();
+        vm.apply(Value::from("HELLO").unwrap()).unwrap();
+        vm.apply(Value::from("NOT HELLO").unwrap()).unwrap();
+        vm.apply(Value::call("==".to_string(), Vec::new())).unwrap();
+        let val = vm.stack.pull().expect("No pull() happens");
+        assert_eq!(val.cast_bool().unwrap(), false);
+    }
+
+    #[test]
     fn test_vm_apply_cmp_eq2() {
         let mut vm = VM::new();
         vm.apply(Value::from(1).unwrap()).unwrap();

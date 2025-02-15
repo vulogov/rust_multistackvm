@@ -21,7 +21,7 @@ mod tests {
     #[test]
     fn test_vm_is_alias() {
         let mut vm = VM::new();
-        assert_eq!(vm.is_alias("display".to_string()), true);
+        assert_eq!(vm.is_alias(".".to_string()), true);
     }
 
     #[test]

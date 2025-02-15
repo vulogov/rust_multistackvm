@@ -44,6 +44,23 @@ fn stdlib_logic_compare(op: Ops, value1: Value, value2: Value) -> Result<bool, E
                 }
             }
         }
+        STRING => {
+            match value2.type_of() {
+                STRING => {
+                    match op {
+                        Ops::Eq => {
+                            return Ok(value1 == value2);
+                        }
+                        _ => {
+                            bail!("COMPARE: unsupported operation for string");
+                        }
+                    }
+                }
+                _ => {
+                    bail!("COMPARE: unsupported operand #2");
+                }
+            }
+        }
         _ => {
             bail!("COMPARE: unsupported operand #1");
         }
