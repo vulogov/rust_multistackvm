@@ -51,6 +51,9 @@ fn stdlib_logic_compare(op: Ops, value1: Value, value2: Value) -> Result<bool, E
                         Ops::Eq => {
                             return Ok(value1 == value2);
                         }
+                        Ops::Ne => {
+                            return Ok(!(value1 == value2));
+                        }
                         _ => {
                             bail!("COMPARE: unsupported operation for string");
                         }
