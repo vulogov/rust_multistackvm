@@ -42,4 +42,5 @@ pub fn init_stdlib(vm: &mut VM) {
     let _ = vm.register_alias("∈".to_string(), "set".to_string());
     let _ = vm.register_alias("matrix".to_string(), "convert.to_matrix".to_string());
     let _ = vm.register_alias("matrix.".to_string(), "convert.to_matrix.".to_string());
+    let _ = vm.register_alias("match".to_string(), "valuemap".to_string());
 }

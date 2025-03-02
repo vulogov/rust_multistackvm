@@ -35,7 +35,38 @@ pub fn stdlib_function_resolve(vm: &mut VM) -> Result<&mut VM, Error> {
     }
 }
 
+pub fn stdlib_class_resolve(vm: &mut VM) -> Result<&mut VM, Error> {
+    if vm.stack.current_stack_len() < 1 {
+        bail!("Stack is too shallow for inline resolve.class()");
+    }
+    match vm.stack.pull() {
+        Some(name_value) => {
+            match name_value.cast_string() {
+                Ok(name) => {
+                    if vm.is_class(name.clone()) {
+                        let c = match vm.get_class(name.clone()) {
+                            Ok(c) => c,
+                            Err(err) => bail!("RESOLVE.CLASS failed to obtain {}: {}", &name, err),
+                        };
+                        vm.stack.push(c);
+                    } else {
+                        bail!("RESOLVE.CLASS class {} not registered", &name);
+                    }
+                }
+                Err(err) => {
+                    bail!("RESOLVE.CLASS returns error: {}", err);
+                }
+            }
+        }
+        None => {
+            bail!("RESOLVE.CLASS returns: NO DATA");
+        }
+    }
+    Ok(vm)
+}
+
 
 pub fn init_stdlib(vm: &mut VM) {
     let _ = vm.register_inline("resolve".to_string(), stdlib_function_resolve);
+    let _ = vm.register_inline("resolve.class".to_string(), stdlib_class_resolve);
 }

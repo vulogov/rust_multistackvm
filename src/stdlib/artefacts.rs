@@ -66,6 +66,17 @@ pub fn stdlib_lambda_inline(vm: &mut VM) -> Result<&mut VM, Error> {
     vm.apply(Value::lambda())
 }
 
+pub fn stdlib_class_inline(vm: &mut VM) -> Result<&mut VM, Error> {
+    let mut res = Value::make_class();
+    res = res.set(".super", Value::list());
+    vm.apply(res)
+}
+
+pub fn stdlib_valuemap_inline(vm: &mut VM) -> Result<&mut VM, Error> {
+    vm.apply(Value::valuemap())
+}
+
+
 pub fn stdlib_ptr_inline(vm: &mut VM) -> Result<&mut VM, Error> {
     if vm.stack.current_stack_len() < 1 {
         bail!("Stack is too shallow for inline ptr()");
@@ -132,4 +143,6 @@ pub fn init_stdlib(vm: &mut VM) {
     let _ = vm.register_inline("pair".to_string(), stdlib_pair_inline);
     let _ = vm.register_inline("complex".to_string(), stdlib_complex_inline);
     let _ = vm.register_inline("metrics".to_string(), stdlib_metrics_inline);
+    let _ = vm.register_inline("class".to_string(), stdlib_class_inline);
+    let _ = vm.register_inline("valuemap".to_string(), stdlib_valuemap_inline);
 }

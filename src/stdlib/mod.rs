@@ -22,6 +22,7 @@ pub mod stackop;
 pub mod json;
 pub mod execute_types;
 pub mod vars;
+pub mod bund_object;
 
 pub fn init_stdlib(vm: &mut VM) {
     print::init_stdlib(vm);
@@ -43,6 +44,7 @@ pub fn init_stdlib(vm: &mut VM) {
     json::init_stdlib(vm);
     execute_types::init_stdlib(vm);
     vars::init_stdlib(vm);
+    bund_object::init_stdlib(vm);
     // And then let's create aliases
     create_aliases::init_stdlib(vm);
 }

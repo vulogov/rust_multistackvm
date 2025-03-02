@@ -1,4 +1,5 @@
 use crate::multistackvm::VM;
+use rust_dynamic::types::*;
 use easy_error::{Error, bail};
 
 
@@ -10,15 +11,22 @@ pub fn stdlib_value_set(vm: &mut VM) -> Result<&mut VM, Error> {
         Some(d_val) => {
             match vm.stack.pull() {
                 Some(tag_name_val) => {
-                    let key_name = match tag_name_val.cast_string() {
-                        Ok(key_name) => key_name,
-                        Err(err) => {
-                            bail!("SET key expected to be string: {}", err);
-                        }
-                    };
                     match vm.stack.pull() {
                         Some(mut value) => {
-                            vm.stack.push(value.set(key_name, d_val));
+                            match value.type_of() {
+                                VALUEMAP => {
+                                    vm.stack.push(value.set_vmap(tag_name_val, d_val));
+                                }
+                                _ => {
+                                    let key_name = match tag_name_val.cast_string() {
+                                        Ok(key_name) => key_name,
+                                        Err(err) => {
+                                            bail!("SET key expected to be string: {}", err);
+                                        }
+                                    };
+                                    vm.stack.push(value.set(key_name, d_val));
+                                }
+                            }
                         }
                         None => {
                             bail!("SET returns: NO DATA #3");
