@@ -38,10 +38,8 @@ mod tests {
         vm.apply(Value::call("set".to_string(), Vec::new())).unwrap();
         vm.apply(Value::call("register".to_string(), Vec::new())).unwrap();
         vm.apply(Value::call("object".to_string(), Vec::new())).unwrap();
-        let res = vm.stack.pull().unwrap();
-        println!("{:?}", &res);
-        //assert_eq!(vm.is_class("A".to_string()), true);
-        assert_eq!(true, false);
+        let pi = vm.value_locate("PI".to_string()).unwrap();
+        assert_eq!(pi.cast_float().unwrap(), 3.14 as f64);
     }
 
 }

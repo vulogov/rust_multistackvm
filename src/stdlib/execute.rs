@@ -84,6 +84,12 @@ pub fn stdlib_execute_base_inline(vm: &mut VM, op: StackOps, err_prefix: String)
                 CONDITIONAL => {
                     return stdlib::execute_types::execute_conditionals::execute_conditionals(vm, ptr_value, op.clone(), err_prefix.clone());
                 }
+                CLASS => {
+                    return stdlib::bund_execute::execute_class::execute_class(vm, ptr_value, op.clone(), err_prefix.clone());
+                }
+                OBJECT => {
+                    return stdlib::bund_execute::execute_object::execute_object(vm, ptr_value, op.clone(), err_prefix.clone());
+                }
                 LAMBDA => {
                     return vm.lambda_eval(ptr_value);
                 }

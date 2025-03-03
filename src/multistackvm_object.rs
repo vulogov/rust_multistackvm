@@ -55,7 +55,7 @@ impl VM {
             _ => bail!("VM there is no value of type OBJECT in the stack"),
         };
         match method_value.type_of() {
-            STRING => {
+            PTR => {
                 match method_value.cast_string() {
                     Ok(method_name) => {
                         if self.is_method(method_name.clone()) {
@@ -77,8 +77,11 @@ impl VM {
             LAMBDA => {
                 return self.lambda_eval(method_value);
             }
-            _ => bail!("VM method body is not acceptable for {}", &name),
+            _ => {
+                self.stack.push(method_value);
+            }
         }
+        Ok(self)
     }
 
 }

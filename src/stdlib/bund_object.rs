@@ -30,7 +30,7 @@ fn make_bund_object(vm: &mut VM, name: String, value: Value) -> Result<Value, Er
                                         Err(_) => Value::lambda(),
                                     };
                                     match init_lambda.type_of() {
-                                        STRING => {
+                                        PTR => {
                                             let init_method_name = match init_lambda.cast_string() {
                                                 Ok(init_method_name) => init_method_name,
                                                 Err(err) => bail!("Error casting init method name: {}", err),

@@ -8,7 +8,7 @@ pub mod autoadd;
 pub mod artefacts;
 pub mod artefacts_json;
 pub mod create_aliases;
-pub mod execute;
+pub mod bund_execute;
 pub mod stacks;
 pub mod ctx;
 pub mod math;
@@ -30,7 +30,7 @@ pub fn init_stdlib(vm: &mut VM) {
     autoadd::init_stdlib(vm);
     artefacts::init_stdlib(vm);
     artefacts_json::init_stdlib(vm);
-    execute::init_stdlib(vm);
+    bund_execute::init_stdlib(vm);
     stacks::init_stdlib(vm);
     ctx::init_stdlib(vm);
     math::init_stdlib(vm);
