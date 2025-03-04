@@ -81,9 +81,17 @@ fn make_bund_object(vm: &mut VM, name: String, value: Value) -> Result<Value, Er
                                         _ => log::debug!("Constructor for the class {} is not STRING or LAMBDA", &class_name),
                                     }
                                     if if_object_of_class_in_stack(vm, class_name.clone()) {
-                                        let _ = vm.stack.pull();
+                                        match vm.stack.pull() {
+                                            Some(parent_object_in_stack) => {
+                                                super_list = super_list.push(parent_object_in_stack);
+                                            }
+                                            None => {
+                                                super_list = super_list.push(parent_object);
+                                            }
+                                        }
+                                    } else {
+                                        super_list = super_list.push(parent_object);
                                     }
-                                    super_list = super_list.push(parent_object);
                                 }
                                 Err(err) => bail!("VM error making parent object {}: {}", &class_name, err),
                             }
@@ -153,9 +161,17 @@ pub fn stdlib_object_inline(vm: &mut VM) -> Result<&mut VM, Error> {
                             _ => log::debug!("Constructor for the class {} is not STRING or LAMBDA", &name),
                         }
                         if if_object_of_class_in_stack(vm, name.clone()) {
-                            let _ = vm.stack.pull();
+                            match vm.stack.pull() {
+                                Some(object_value_in_stack) => {
+                                    return vm.apply(object_value_in_stack);
+                                }
+                                None => {
+                                    return vm.apply(object_value);
+                                }
+                            }
+                        } else {
+                            return vm.apply(object_value);
                         }
-                        return vm.apply(object_value);
                     } else {
                         bail!("OBJECT class {} not registered", &name);
                     }
