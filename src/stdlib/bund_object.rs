@@ -3,6 +3,27 @@ use rust_dynamic::value::Value;
 use rust_dynamic::types::*;
 use easy_error::{Error, bail};
 
+fn if_object_of_class_in_stack(vm: &mut VM, name: String) -> bool {
+    if vm.stack.current_stack_len() < 1 {
+        return false;
+    }
+    let obj = match vm.stack.peek() {
+        Some(obj) => obj,
+        None => return false,
+    };
+    if obj.type_of() == OBJECT {
+        return match obj.get(".class_name") {
+            Ok(class_name_value) => match class_name_value.cast_string() {
+                Ok(class_name) => class_name == name,
+                Err(_) => false,
+            },
+            Err(_) => false,
+        };
+    } else {
+        return false;
+    }
+}
+
 fn make_bund_object(vm: &mut VM, name: String, value: Value) -> Result<Value, Error> {
     match value.type_of() {
         CLASS => {
@@ -10,6 +31,9 @@ fn make_bund_object(vm: &mut VM, name: String, value: Value) -> Result<Value, Er
                 Ok(res) => res,
                 Err(err) => bail!("VM error running DUP for the CLASS in OBJECT creation: {}", err),
             };
+            res.dt = OBJECT;
+            res = res.set(".class_name", Value::from_string(name.clone()));
+            vm.stack.push(res.clone());
             let mut super_list = Value::list();
             let super_classes = match value.get(".super") {
                 Ok(super_classes) => super_classes,
@@ -29,6 +53,7 @@ fn make_bund_object(vm: &mut VM, name: String, value: Value) -> Result<Value, Er
                                         Ok(init_lambda) => init_lambda,
                                         Err(_) => Value::lambda(),
                                     };
+                                    vm.stack.push(parent_object.clone());
                                     match init_lambda.type_of() {
                                         PTR => {
                                             let init_method_name = match init_lambda.cast_string() {
@@ -55,6 +80,9 @@ fn make_bund_object(vm: &mut VM, name: String, value: Value) -> Result<Value, Er
                                         }
                                         _ => log::debug!("Constructor for the class {} is not STRING or LAMBDA", &class_name),
                                     }
+                                    if if_object_of_class_in_stack(vm, class_name.clone()) {
+                                        let _ = vm.stack.pull();
+                                    }
                                     super_list = super_list.push(parent_object);
                                 }
                                 Err(err) => bail!("VM error making parent object {}: {}", &class_name, err),
@@ -66,8 +94,39 @@ fn make_bund_object(vm: &mut VM, name: String, value: Value) -> Result<Value, Er
                     Err(err) => bail!("VM error casting class name: {}", err),
                 }
             }
-            res.dt = OBJECT;
-            res = res.set(".class_name", Value::from_string(name.clone()));
+            let init_lambda = match res.get(".init") {
+                Ok(init_lambda) => init_lambda,
+                Err(_) => Value::lambda(),
+            };
+            match init_lambda.type_of() {
+                PTR => {
+                    let init_method_name = match init_lambda.cast_string() {
+                        Ok(init_method_name) => init_method_name,
+                        Err(err) => bail!("Error casting init method name: {}", err),
+                    };
+                    if vm.is_method(init_method_name.clone()) {
+                        match vm.get_method(init_method_name.clone()) {
+                            Ok(init_method) => {
+                                match init_method(vm) {
+                                    Ok(_) => {},
+                                    Err(err) => bail!("CLASS {} constructor returns: {}", &name, err),
+                                };
+                            }
+                            Err(err) => bail!("Error getting constructor for class {}: {}", &name, err),
+                        }
+                    }
+                }
+                LAMBDA => {
+                    match vm.lambda_eval(init_lambda) {
+                        Ok(_) => {},
+                        Err(err) => bail!("CLASS {} LAMBDA constructor returns: {}", &name, err),
+                    };
+                }
+                _ => log::debug!("Constructor for the class {} is not STRING or LAMBDA", &name),
+            }
+            if if_object_of_class_in_stack(vm, name.clone()) {
+                let _ = vm.stack.pull();
+            }
             res = res.set(".super", super_list);
             return Ok(res);
         }
